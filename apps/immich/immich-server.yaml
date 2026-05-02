@@ -28,9 +28,9 @@ spec:
             - name: IMMICH_SERVER_URL
               value: https://photos.greiner.home
           volumeMounts:
-            - name: media
+            - name: pictures
               mountPath: /usr/src/app/upload
       volumes:
-        - name: media
+        - name: pictures
           persistentVolumeClaim:
-            claimName: immich-media
+            claimName: immich-pictures
