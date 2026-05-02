@@ -33,6 +33,10 @@ spec:
               value: immich-redis
             - name: IMMICH_SERVER_URL
               value: https://photos.greiner.home
+            - name: IMMICH_HOST
+              value: "0.0.0.0"
+            - name: IMMICH_PORT
+              value: "3001"
           volumeMounts:
             - name: pictures
               mountPath: /usr/src/app/upload
