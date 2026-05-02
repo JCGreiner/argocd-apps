@@ -26,4 +26,5 @@ spec:
         - name: config
           emptyDir: {}
         - name: media
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: jellyfin-media
