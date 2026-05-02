@@ -10,8 +10,6 @@ spec:
         revision: main
         directories:
           - path: infra/*
-            exclude: true
-          - path: infra/*/
   template:
     metadata:
       name: '{{path.basename}}'
