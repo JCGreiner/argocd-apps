@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: root-app
+  name: infra
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://github.com/JCGreiner/argocd-apps.git
     targetRevision: HEAD
-    path: .
+    path: infra
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
