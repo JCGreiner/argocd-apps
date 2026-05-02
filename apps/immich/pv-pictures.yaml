@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: immich-pictures-pv
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ""
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: 192.168.1.19
+    path: /mnt/fd54b9e9-2475-47fe-8a83-a13b790c20e4/pictures
