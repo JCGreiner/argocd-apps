@@ -12,6 +12,10 @@ spec:
       labels:
         app: jellyfin
     spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       containers:
         - name: jellyfin
           image: jellyfin/jellyfin:latest
@@ -24,7 +28,8 @@ spec:
               mountPath: /media
       volumes:
         - name: config
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: jellyfin-config
         - name: media
           persistentVolumeClaim:
             claimName: jellyfin-media
