@@ -37,6 +37,8 @@ spec:
               value: "0.0.0.0"
             - name: IMMICH_PORT
               value: "3001"
+            - name: UPLOAD_LOCATION
+              value: /usr/src/app/upload
           volumeMounts:
             - name: uploads
               mountPath: /usr/src/app/upload
