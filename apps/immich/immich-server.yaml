@@ -39,6 +39,21 @@ spec:
               value: "3001"
             - name: UPLOAD_LOCATION
               value: /usr/src/app/upload
+            - name: OIDC_ENABLED
+              value: "true"
+            - name: OIDC_ISSUER_URL
+              value: "https://idp.greiner.nu/realms/greiner"
+            - name: OIDC_CLIENT_ID
+              value: "immich-home"
+            - name: OIDC_CLIENT_SECRET
+              value: "sDsJTza5c9UcHxwvR25XVaBWfnTwNFvH"
+            - name: OIDC_SCOPE
+              value: "openid profile email"
+            - name: OIDC_AUTO_REGISTER
+              value: "true"
+            - name: OIDC_BUTTON_TEXT
+              value: "Login with Keycloak"
+
           volumeMounts:
             - name: uploads
               mountPath: /usr/src/app/upload
