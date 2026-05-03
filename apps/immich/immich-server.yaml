@@ -38,9 +38,15 @@ spec:
             - name: IMMICH_PORT
               value: "3001"
           volumeMounts:
-            - name: pictures
+            - name: uploads
               mountPath: /usr/src/app/upload
+            - name: pictures
+              mountPath: /mnt/pictures
+              readOnly: true
       volumes:
+        - name: uploads
+          persistentVolumeClaim:
+            claimName: immich-uploads
         - name: pictures
           persistentVolumeClaim:
             claimName: immich-pictures
