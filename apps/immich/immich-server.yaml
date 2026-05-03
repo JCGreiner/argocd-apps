@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: immich
-          image: ghcr.io/immich-app/immich-server:commit-09791092dac03bf166e6b8d2e07131bec5f2bbf3
+          image: ghcr.io/immich-app/immich-server:v2.7.5
           ports:
             - containerPort: 3001
           env:
