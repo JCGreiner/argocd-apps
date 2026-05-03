@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: immich-postgres
   namespace: immich
@@ -26,9 +26,9 @@ spec:
             - name: POSTGRES_PASSWORD
               value: immich
           volumeMounts:
-            - name: config
+            - name: postgres-data
               mountPath: /var/lib/postgresql/data
       volumes:
-        - name: config
+        - name: postgres-data
           persistentVolumeClaim:
-            claimName: immich-config
+            claimName: immich-postgres
