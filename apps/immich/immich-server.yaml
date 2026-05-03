@@ -26,7 +26,10 @@ spec:
             - name: DB_USERNAME
               value: immich
             - name: DB_PASSWORD
-              value: immich
+              valueFrom:
+                secretKeyRef:
+                  name: immich-secret
+                  key: DB_PASSWORD
             - name: DB_DATABASE_NAME
               value: immich
             - name: REDIS_HOSTNAME
@@ -46,7 +49,10 @@ spec:
             - name: OIDC_CLIENT_ID
               value: "immich-home"
             - name: OIDC_CLIENT_SECRET
-              value: "sDsJTza5c9UcHxwvR25XVaBWfnTwNFvH"
+              valueFrom:
+                secretKeyRef:
+                  name: immich-secret
+                  key: OIDC_CLIENT_SECRET
             - name: OIDC_SCOPE
               value: "openid profile email"
             - name: OIDC_AUTO_REGISTER
