@@ -1,3 +1,16 @@
-appName: vault
-appPath: platform/vault
-namespace: vault
+  ui = true
+    
+    listener "tcp" {
+    address = "0.0.0.0:8200"
+    tls_disable = 1
+  }
+    
+    storage "raft" {
+    path = "/vault/data"
+  }
+    
+    seal "transit" {
+    address     = "http://vault-unseal.vault-unseal.svc:8200"
+    key_name    = "autounseal"
+    mount_path  = "transit/"
+  }
