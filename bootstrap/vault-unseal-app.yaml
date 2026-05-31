@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vault-unseal
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://helm.releases.hashicorp.com
+    chart: vault
+    targetRevision: 0.32.0
+    helm:
+      values: |
+        server:
+          standalone:
+            enabled: true
+
+          extraArgs:
+            - -dev
+
+          # IMPORTANT: enable transit explicitly
+          postStart:
+            - /bin/sh
+            - -c
+            - |
+              sleep 10
+              vault secrets enable transit || true
+              vault write -f transit/keys/autounseal || true
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: vault-unseal
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

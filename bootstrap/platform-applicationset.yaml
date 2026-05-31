@@ -13,6 +13,11 @@ spec:
             targetRevision: 0.32.0
             namespace: vault
 
+          - name: vault-unseal
+            chart: vault
+            repoURL: https://helm.releases.hashicorp.com
+            targetRevision: 0.32.0
+            namespace: vault-unseal
   template:
     metadata:
       name: "{{name}}"
@@ -28,6 +33,12 @@ spec:
             server:
               standalone:
                 enabled: true
+              
+              # AUTO-UNSEAL CONFIG
+              seal "transit":
+              address = "http://vault-unseal.vault-unseal.svc:8200"
+              key_name = "autounseal"
+              mount_path = "transit/"
 
       destination:
         server: https://kubernetes.default.svc
