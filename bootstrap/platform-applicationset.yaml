@@ -30,16 +30,13 @@ spec:
         chart: "{{chart}}"
         targetRevision: "{{targetRevision}}"
         helm:
-          values: |
-            server:
-              standalone:
-                enabled: true
-
-              # AUTO-UNSEAL CONFIG
-              seal "transit":
-              address = "http://vault-unseal.vault-unseal.svc:8200"
-              key_name = "autounseal"
-              mount_path = "transit/"
+        values: |
+          server:
+            standalone:
+              enabled: true
+            extraEnvironmentVars:
+              VAULT_SEAL_TYPE: transit
+              VAULT_TRANSIT_ADDR: http://vault-unseal.vault-unseal.svc:8200
 
       destination:
         server: https://kubernetes.default.svc
