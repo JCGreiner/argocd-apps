@@ -5,6 +5,7 @@ metadata:
   namespace: vault
 spec:
   secretName: vault-tls
+  commonName: vault.greiner.home
   issuerRef:
     name: greiner-ca-issuer
     kind: ClusterIssuer
