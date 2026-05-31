@@ -1,3 +1,4 @@
+---
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
@@ -33,7 +34,7 @@ spec:
             server:
               standalone:
                 enabled: true
-              
+
               # AUTO-UNSEAL CONFIG
               seal "transit":
               address = "http://vault-unseal.vault-unseal.svc:8200"
