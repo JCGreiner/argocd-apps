@@ -4,7 +4,7 @@ metadata:
   name: vault
   namespace: vault
   annotations:
-    cert-manager.io/cluster-issuer: selfsigned-issuer   # or letsencrypt later
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
 spec:
   ingressClassName: traefik
   tls:

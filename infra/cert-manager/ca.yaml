@@ -1,0 +1,15 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: greiner-root-ca
+  namespace: cert-manager
+spec:
+  isCA: true
+  commonName: greiner-root-ca
+  secretName: greiner-root-ca-key
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  issuerRef:
+    name: selfsigned-issuer
+    kind: ClusterIssuer
