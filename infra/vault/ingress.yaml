@@ -5,7 +5,7 @@ metadata:
   name: vault
   namespace: vault
   annotations:
-    cert-manager.io/cluster-issuer: greiner-root-ca
+    cert-manager.io/cluster-issuer: greiner-ca-issuer
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
 spec:
   tls:

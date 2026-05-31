@@ -6,7 +6,7 @@ metadata:
 spec:
   secretName: vault-tls
   issuerRef:
-    name: greiner-root-ca
+    name: greiner-ca-issuer
     kind: ClusterIssuer
   dnsNames:
     - vault.greiner.home
