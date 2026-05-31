@@ -2,14 +2,14 @@ server:
   standalone:
     enabled: true
 
+  extraVolumes:
+    - type: secret
+      name: vault-tls
+
   extraEnvironmentVars:
     VAULT_API_ADDR: "https://vault.greiner.home"
+    VAULT_TLS_CERT_FILE: /vault/userconfig/vault-tls/tls.crt
+    VAULT_TLS_KEY_FILE: /vault/userconfig/vault-tls/tls.key
 
   ingress:
-    enabled: true
-    hosts:
-      - host: vault.greiner.home
-    tls:
-      - hosts:
-          - vault.greiner.home
-        secretName: vault-tls
+    enabled: false
