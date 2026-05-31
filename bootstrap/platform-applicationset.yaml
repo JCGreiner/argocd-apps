@@ -9,23 +9,20 @@ spec:
     - git:
         repoURL: https://github.com/JCGreiner/argocd-apps.git
         revision: main
-        directories:
-          - path: platform/*
+        files:
+          - path: platform/**/app-config.yaml
   template:
     metadata:
-      name: '{{path.basename}}'
+      name: '{{appName}}'
     spec:
       project: default
-
       source:
         repoURL: https://github.com/JCGreiner/argocd-apps.git
         targetRevision: main
-        path: '{{path}}'
-
+        path: '{{appPath}}'
       destination:
         server: https://kubernetes.default.svc
-        namespace: argocd
-
+        namespace: '{{namespace}}'
       syncPolicy:
         automated:
           prune: true
