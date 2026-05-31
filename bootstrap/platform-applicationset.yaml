@@ -13,12 +13,6 @@ spec:
             repoURL: https://helm.releases.hashicorp.com
             targetRevision: 0.32.0
             namespace: vault
-
-          - name: vault-unseal
-            chart: vault
-            repoURL: https://helm.releases.hashicorp.com
-            targetRevision: 0.32.0
-            namespace: vault-unseal
   template:
     metadata:
       name: "{{name}}"
@@ -34,9 +28,6 @@ spec:
           server:
             standalone:
               enabled: true
-            extraEnvironmentVars:
-              VAULT_SEAL_TYPE: transit
-              VAULT_TRANSIT_ADDR: http://vault-unseal.vault-unseal.svc:8200
 
       destination:
         server: https://kubernetes.default.svc
@@ -53,5 +44,6 @@ spec:
       ignoreDifferences:
         - group: admissionregistration.k8s.io
           kind: MutatingWebhookConfiguration
+          name: vault-agent-injector-cfg
           jsonPointers:
             - /webhooks
