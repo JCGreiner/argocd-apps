@@ -4,10 +4,10 @@ metadata:
   name: vault-tls
   namespace: vault
 spec:
-  secretName: vault-tls
-
+  subject:
+    organizations:
+      - greiner
   commonName: vault.greiner.home
-
   dnsNames:
     - vault.greiner.home
 
