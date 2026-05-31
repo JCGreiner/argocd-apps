@@ -2,25 +2,30 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: greiner-infra
+  name: greiner-platform
   namespace: argocd
 spec:
   generators:
     - git:
-        files:
-          - path: infra/**/app-config.yaml
+        repoURL: https://github.com/JCGreiner/argocd-apps.git
+        revision: main
+        directories:
+          - path: platform/*
   template:
     metadata:
       name: '{{path.basename}}'
     spec:
       project: default
+
       source:
         repoURL: https://github.com/JCGreiner/argocd-apps.git
         targetRevision: main
         path: '{{path}}'
+
       destination:
         server: https://kubernetes.default.svc
         namespace: argocd
+
       syncPolicy:
         automated:
           prune: true
