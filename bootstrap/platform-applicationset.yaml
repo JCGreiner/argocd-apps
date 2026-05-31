@@ -2,27 +2,38 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: greiner-platform
+  name: platform
   namespace: argocd
 spec:
   generators:
-    - git:
-        repoURL: https://github.com/JCGreiner/argocd-apps.git
-        revision: main
-        files:
-          - path: platform/**/app-config.yaml
+    - list:
+        elements:
+          - name: vault
+            chart: vault
+            repoURL: https://helm.releases.hashicorp.com
+            targetRevision: 0.32.0
+            namespace: vault
+
   template:
     metadata:
-      name: '{{appName}}'
+      name: "{{name}}"
     spec:
       project: default
+
       source:
-        repoURL: https://github.com/JCGreiner/argocd-apps.git
-        targetRevision: main
-        path: '{{appPath}}'
+        repoURL: "{{repoURL}}"
+        chart: "{{chart}}"
+        targetRevision: "{{targetRevision}}"
+        helm:
+          values: |
+            server:
+              standalone:
+                enabled: true
+
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{namespace}}'
+        namespace: "{{namespace}}"
+
       syncPolicy:
         automated:
           prune: true
