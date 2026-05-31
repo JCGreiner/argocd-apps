@@ -7,8 +7,10 @@ metadata:
 spec:
   generators:
     - git:
-        files:
-          - path: infra/**/app-config.yaml
+        repoURL: https://github.com/JCGreiner/argocd-apps.git
+        revision: main
+        directories:
+          - path: infra/*
   template:
     metadata:
       name: '{{path.basename}}'
