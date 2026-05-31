@@ -1,0 +1,15 @@
+server:
+  standalone:
+    enabled: true
+
+  extraEnvironmentVars:
+    VAULT_API_ADDR: "https://vault.greiner.home"
+
+  ingress:
+    enabled: true
+    hosts:
+      - host: vault.greiner.home
+    tls:
+      - hosts:
+          - vault.greiner.home
+        secretName: vault-tls

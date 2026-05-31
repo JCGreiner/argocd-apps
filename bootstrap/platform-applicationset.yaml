@@ -24,10 +24,8 @@ spec:
         chart: "{{chart}}"
         targetRevision: "{{targetRevision}}"
         helm:
-          values: |
-            server:
-              standalone:
-                enabled: true
+          valueFiles:
+            - values.yaml
 
       destination:
         server: https://kubernetes.default.svc

@@ -3,8 +3,14 @@ kind: Ingress
 metadata:
   name: vault
   namespace: vault
+  annotations:
+    cert-manager.io/cluster-issuer: selfsigned-issuer   # or letsencrypt later
 spec:
   ingressClassName: traefik
+  tls:
+    - hosts:
+        - vault.greiner.home
+      secretName: vault-tls
   rules:
     - host: vault.greiner.home
       http:
@@ -16,7 +22,3 @@ spec:
                 name: vault
                 port:
                   number: 8200
-  tls:
-    - hosts:
-        - vault.greiner.home
-      secretName: greiner-home-tls
