@@ -29,13 +29,18 @@ spec:
     spec:
       project: default
 
-      source:
-        repoURL: "{{repoURL}}"
-        chart: "{{chart}}"
-        targetRevision: "{{targetRevision}}"
-        helm:
-          valueFiles:
-            - values.yaml
+      sources:
+        - repoURL: "{{repoURL}}"
+          chart: "{{chart}}"
+          targetRevision: "{{targetRevision}}"
+          helm:
+            valueFiles:
+              - $values/platform/{{name}}/values.yaml
+
+        - repoURL: https://github.com/JCGreiner/argocd-apps.git
+          targetRevision: main
+          ref: values
+
 
       destination:
         server: https://kubernetes.default.svc
