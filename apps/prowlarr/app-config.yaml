@@ -1,0 +1,3 @@
+appName: prowlarr
+appPath: apps/prowlarr
+namespace: media
