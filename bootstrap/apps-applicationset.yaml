@@ -11,6 +11,7 @@ spec:
         revision: main
         files:
           - path: apps/**/app-config.yaml
+        kustomize: {}
 
   template:
     metadata:
