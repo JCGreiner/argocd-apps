@@ -5,7 +5,7 @@ metadata:
   name: prowlarr-config
   namespace: media
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "10"
 spec:
   storageClassName: ""
   accessModes:
