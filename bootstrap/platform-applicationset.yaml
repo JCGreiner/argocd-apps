@@ -18,6 +18,11 @@ spec:
             repoURL: https://charts.jetstack.io
             targetRevision: v1.18.2
             namespace: cert-manager
+          - name: rancher
+            chart: rancher
+            repoURL: https://releases.rancher.com/server-charts/latest
+            targetRevision: 2.14.0
+            namespace: cattle-system
   template:
     metadata:
       name: "{{name}}"

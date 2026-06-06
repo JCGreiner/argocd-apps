@@ -1,0 +1,6 @@
+crds:
+  enabled: true
+hostname: rancher.greiner.home
+ingress:
+  tls:
+    source: secret
