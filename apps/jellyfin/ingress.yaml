@@ -3,6 +3,11 @@ kind: Ingress
 metadata:
   name: jellyfin
 spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - media.greiner.home
+      secretName: jellyfin-tls
   rules:
     - host: media.greiner.home
       http:
