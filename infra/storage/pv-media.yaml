@@ -1,16 +1,14 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: media-music-pv
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
+  name: media-pv
 spec:
-  capacity:
-    storage: 1Gi
   accessModes:
     - ReadWriteMany
   storageClassName: ""
   persistentVolumeReclaimPolicy: Retain
+  capacity:
+    storage: 1Gi
   nfs:
     server: 192.168.1.19
-    path: /data1/music
+    path: /data1/media

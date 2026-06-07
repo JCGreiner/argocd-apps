@@ -1,15 +1,13 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: media-music-pvc
+  name: media-pvc
   namespace: media
-  annotations:
-    argocd.argoproj.io/sync-wave: "10"
 spec:
-  storageClassName: ""
   accessModes:
     - ReadWriteMany
+  storageClassName: ""
   resources:
     requests:
       storage: 1Gi
-  volumeName: media-music-pv
+  volumeName: media-pv
