@@ -10,3 +10,5 @@ resources:
   - pvc-prowlar-config.yaml
   - pv-sonarr-config.yaml
   - pvc-sonarr-config.yaml
+  - pv-qbittorrent-config.yaml
+  - pvc-qbittorrent-config.yaml
