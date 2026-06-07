@@ -11,6 +11,6 @@ spec:
     - ReadWriteOnce
   storageClassName: ""
   persistentVolumeReclaimPolicy: Retain
-  nfs:
-    server: 192.168.1.19
-    path: /data1/media/sonarr
+  hostPath:
+    path: /var/lib/k3s-storage/sonarr
+    type: DirectoryOrCreate
