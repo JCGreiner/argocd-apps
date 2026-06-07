@@ -11,5 +11,6 @@ spec:
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  hostPath:
+  nfs:
+    server: 192.168.1.19
     path: /data1/media/prowlarr
