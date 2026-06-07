@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: prowlarr-config-pv
+  name: jellyfin-config-pv
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
-  storageClassName: ""
   capacity:
-    storage: 5Gi
+    storage: 200Mi
   accessModes:
     - ReadWriteOnce
+  storageClassName: ""
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: /data1/prowlarr
+    path: /home/charles/k8s-data/jellyfin-config

@@ -1,9 +1,5 @@
 resources:
   - namespace.yaml
-  - pv-jellyfin-config.yaml
-  - pv-media.yaml
-  - pvc-jellyfin-config.yaml
-  - pvc-jellyfin-media.yaml
   - deployment.yaml
   - service.yaml
   - ingress.yaml
