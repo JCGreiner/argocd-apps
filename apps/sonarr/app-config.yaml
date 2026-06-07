@@ -1,0 +1,3 @@
+appName: sonarr
+appPath: apps/sonarr
+namespace: media

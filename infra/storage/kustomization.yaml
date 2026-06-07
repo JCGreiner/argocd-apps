@@ -8,3 +8,5 @@ resources:
   - pvc-jellyfin-config.yaml
   - pv-prowlar-config.yaml
   - pvc-prowlar-config.yaml
+  - pv-sonarr-config.yaml
+  - pvc-sonarr-config.yaml
