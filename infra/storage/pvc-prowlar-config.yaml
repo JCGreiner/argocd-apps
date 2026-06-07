@@ -6,7 +6,6 @@ metadata:
   namespace: media
   annotations:
     argocd.argoproj.io/sync-wave: "10"
-    argocd.argoproj.io/sync-options: Replace=true
 spec:
   storageClassName: ""
   volumeName: prowlarr-config-pv
