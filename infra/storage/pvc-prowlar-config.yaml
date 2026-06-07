@@ -9,6 +9,7 @@ metadata:
     argocd.argoproj.io/sync-options: Replace=true
 spec:
   storageClassName: ""
+  volumeName: prowlarr-config-pv
   accessModes:
     - ReadWriteOnce
   resources:
