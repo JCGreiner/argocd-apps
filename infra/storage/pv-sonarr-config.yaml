@@ -12,5 +12,5 @@ spec:
   storageClassName: ""
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: /var/lib/k3s-storage/sonarr
+    path: /home/charles/k8s-data/sonarr-config
     type: DirectoryOrCreate
