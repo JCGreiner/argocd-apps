@@ -13,7 +13,7 @@ spec:
   tls:
     - hosts:
         - qbittorrent.greiner.home
-      secretName: greiner-home-tls
+      secretName: qbittorent-tls
 
   rules:
     - host: qbittorrent.greiner.home
