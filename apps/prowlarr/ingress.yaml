@@ -4,7 +4,7 @@ metadata:
   name: prowlarr
   namespace: media
   annotations:
-    traefik.ingress.kubernetes.io/router.middlewares: "kube-system-lan-only@kubernetescrd,kube-system-secure-headers@kubernetescrd"
+    traefik.ingress.kubernetes.io/router.middlewares: "kube-system-secure-headers@kubernetescrd"
 
 spec:
   ingressClassName: traefik
