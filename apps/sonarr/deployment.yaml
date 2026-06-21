@@ -26,11 +26,11 @@ spec:
               mountPath: /config
 
             - name: media
-              mountPath: /tv
+              mountPath: /media
               subPath: series
 
             - name: media
-              mountPath: /downloads
+              mountPath: /media
               subPath: downloads
 
       volumes:
