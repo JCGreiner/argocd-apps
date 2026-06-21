@@ -1,25 +1,31 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
+
 metadata:
-  name: immich
-  namespace: immich
+  name: qbittorrent
+
   annotations:
-    cert-manager.io/cluster-issuer: greiner-ca-issuer
     traefik.ingress.kubernetes.io/router.middlewares: kube-system-lan-only@kubernetescrd
+
 spec:
-  ingressClassName: traefik   # 👈 THIS is the fix
+  ingressClassName: traefik
+
   tls:
     - hosts:
-        - photos.greiner.home
-      secretName: immich-tls
+        - qbittorrent.greiner.home
+      secretName: greiner-home-tls
+
   rules:
-    - host: photos.greiner.home
+    - host: qbittorrent.greiner.home
+
       http:
         paths:
           - path: /
             pathType: Prefix
+
             backend:
               service:
-                name: immich-server
+                name: qbittorrent
+
                 port:
-                  number: 80
+                  number: 8080

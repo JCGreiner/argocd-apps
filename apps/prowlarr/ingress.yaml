@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: prowlarr
   namespace: media
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-lan-only@kubernetescrd
 
 spec:
   ingressClassName: traefik

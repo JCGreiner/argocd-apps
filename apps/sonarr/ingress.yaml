@@ -4,6 +4,8 @@ kind: Ingress
 metadata:
   name: sonarr
   namespace: media
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-lan-only@kubernetescrd
 spec:
   ingressClassName: traefik
   tls:
