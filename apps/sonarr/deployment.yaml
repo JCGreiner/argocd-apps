@@ -27,11 +27,6 @@ spec:
 
             - name: media
               mountPath: /media
-              subPath: series
-
-            - name: media
-              mountPath: /media
-              subPath: downloads
 
       volumes:
         - name: config
