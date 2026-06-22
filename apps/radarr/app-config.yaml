@@ -1,0 +1,3 @@
+appName: radarr
+appPath: apps/radarr
+namespace: media
