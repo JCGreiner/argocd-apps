@@ -14,3 +14,8 @@ resources:
   - pvc-radarr-config.yaml
   - pv-qbittorrent-config.yaml
   - pvc-qbittorrent-config.yaml
+  - pv-pictures.yaml
+  - pvc-pictures.yaml
+  - pv-uploads.yaml
+  - pvc-uploads.yaml
+  - pvc-immich-postgres.yaml
