@@ -18,4 +18,3 @@ resources:
   - pvc-pictures.yaml
   - pv-uploads.yaml
   - pvc-uploads.yaml
-  - ../../apps/immich/pvc-immich-postgres.yaml
