@@ -4,11 +4,11 @@ metadata:
   name: media-pv
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   storageClassName: ""
   persistentVolumeReclaimPolicy: Retain
   capacity:
     storage: 1Gi
-  nfs:
-    server: 192.168.1.19
+  hostPath:
     path: /data1/media
+    type: DirectoryOrCreate
