@@ -8,9 +8,9 @@ spec:
   capacity:
     storage: 1Gi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   storageClassName: ""
   persistentVolumeReclaimPolicy: Retain
-  nfs:
-    server: 192.168.1.19
+  hostPath:
     path: /data1/uploads
+    type: DirectoryOrCreate

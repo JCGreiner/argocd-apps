@@ -11,6 +11,6 @@ spec:
     - ReadOnlyMany
   storageClassName: ""
   persistentVolumeReclaimPolicy: Retain
-  nfs:
-    server: 192.168.1.19
+  hostPath:
     path: /data1/pictures
+    type: DirectoryOrCreate
