@@ -1,0 +1,10 @@
+- deployment-postgres.yaml
+- deployment-redis.yaml
+- deployment-immich-server.yaml
+- deployment-immich-ml.yaml
+- external-secret.yaml
+- ingress.yaml
+- pvc-immich-postgres.yaml
+- service-postgres.yaml
+- service-redis.yaml
+- service-immich.yaml
