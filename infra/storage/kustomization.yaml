@@ -6,6 +6,7 @@ resources:
   - pvc-media.yaml
   - pv-jellyfin-config.yaml
   - pvc-jellyfin-config.yaml
+  - pv-lidarr-config.yaml
   - pv-prowlar-config.yaml
   - pvc-prowlar-config.yaml
   - pv-sonarr-config.yaml
