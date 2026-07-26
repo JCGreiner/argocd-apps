@@ -46,6 +46,9 @@ spec:
           targetRevision: main
           ref: values
 
+        - repoURL: https://github.com/JCGreiner/argocd-apps.git
+          targetRevision: main
+          path: platform/{{name}}/manifests
 
       destination:
         server: https://kubernetes.default.svc
