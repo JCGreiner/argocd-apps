@@ -1,0 +1,21 @@
+configs:
+  cm:
+    url: https://argocd.greiner.home
+
+    oidc.config: |
+      name: Keycloak
+      issuer: https://idp.greiner.nu/realms/greiner
+      clientID: argocd
+      clientSecret: <replace-with-secret>
+      requestedScopes: ["openid", "profile", "email", "groups"]
+
+  rbac:
+    policy.default: role:readonly
+    policy.csv: |
+      g, argocd-admin, role:admin
+
+    scopes: "[groups]"
+
+server:
+  ingress:
+    enabled: true
