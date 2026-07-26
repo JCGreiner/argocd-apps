@@ -1,0 +1,14 @@
+when:
+  - event: cron
+    cron: renovate
+
+steps:
+  - name: renovate
+    image: renovate/renovate:latest
+    environment:
+      RENOVATE_PLATFORM: github
+      RENOVATE_REPOSITORIES: JCGreiner/argocd-apps
+      RENOVATE_TOKEN:
+        from_secret: renovate_token
+    commands:
+      - renovate
