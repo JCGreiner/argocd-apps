@@ -5,5 +5,26 @@
   "automergeType": "branch",
   "major": {
     "automerge": false
-  }
+  },
+  "kubernetes": {
+    "managerFilePatterns": [
+      "/^apps\\/.*\\.ya?ml$/",
+      "/^infra\\/.*\\.ya?ml$/"
+    ]
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "ArgoCD ApplicationSet chart versions (list generator)",
+      "managerFilePatterns": [
+        "/^bootstrap\\/.*applicationset\\.ya?ml$/"
+      ],
+      "matchStrings": [
+        "chart:\\s+(?<depName>\\S+)\\s+repoURL:\\s+(?<registryUrl>\\S+)\\s+targetRevision:\\s+(?<currentValue>\\S+)"
+      ],
+      "datasourceTemplate": "helm",
+      "packageNameTemplate": "{{{depName}}}",
+      "registryUrlTemplate": "{{{registryUrl}}}"
+    }
+  ]
 }
