@@ -6,7 +6,7 @@ configs:
       name: Keycloak
       issuer: https://idp.greiner.nu/realms/greiner
       clientID: argocd
-      clientSecret: <replace-with-secret>
+      clientSecret: $oidc.keycloak.clientSecret
       requestedScopes: ["openid", "profile", "email", "groups"]
 
   rbac:
