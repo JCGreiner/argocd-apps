@@ -1,0 +1,29 @@
+server:
+  env:
+    WOODPECKER_HOST: https://woodpecker.greiner.home
+    WOODPECKER_OPEN: "false"          # don't let anyone self-register
+    WOODPECKER_ADMIN: JCGreiner
+    WOODPECKER_GITHUB: "true"
+
+  extraSecretNamesForEnvFrom:
+    - woodpecker-github-oauth        # created out-of-band, see below
+
+  ingress:
+    enabled: true
+    className: traefik                # k3s default; change if you run nginx via Rancher
+    annotations:
+      cert-manager.io/cluster-issuer: greiner-ca-issuer
+    hosts:
+      - host: woodpecker.greiner.home
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: woodpecker-tls
+        hosts:
+          - woodpecker.greiner.home
+
+agent:
+  env:
+    WOODPECKER_BACKEND: kubernetes
+    WOODPECKER_BACKEND_K8S_NAMESPACE: woodpecker

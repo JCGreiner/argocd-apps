@@ -23,6 +23,11 @@ spec:
             repoURL: https://releases.rancher.com/server-charts/latest
             targetRevision: 2.14.0
             namespace: cattle-system
+          - name: woodpecker-ci
+            chart: woodpecker
+            repoURL: https://woodpecker-ci.org/
+            targetRevision: 3.6.4
+            namespace: woodpecker
   template:
     metadata:
       name: "{{name}}"
