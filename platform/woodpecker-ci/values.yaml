@@ -23,6 +23,10 @@ server:
         hosts:
           - woodpecker.greiner.home
 
+  persistentVolume:
+    enabled: true
+    size: 1Gi
+
 agent:
   env:
     WOODPECKER_BACKEND: kubernetes
