@@ -17,4 +17,4 @@ spec:
     spec:
       containers:
         - name: immich-ml
-          image: ghcr.io/immich-app/immich-machine-learning:v2.7.5
+          image: ghcr.io/immich-app/immich-machine-learning:v3.1.0
