@@ -26,7 +26,7 @@ spec:
           - name: woodpecker-ci
             chart: woodpecker
             repoURL: https://woodpecker-ci.org/
-            targetRevision: 3.6.4
+            targetRevision: 3.7.0
             namespace: woodpecker
   template:
     metadata:
