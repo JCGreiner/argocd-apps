@@ -37,4 +37,4 @@ spec:
 #            claimName: immich-postgres
         - name: postgres
           persistentVolumeClaim:
-            claimName: immich-postgres-new
+            claimName: immich-postgres
