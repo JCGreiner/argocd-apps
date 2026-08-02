@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: ghcr.io/immich-app/postgres:18-vectorchord0.5.3
+          image: ghcr.io/immich-app/postgres:17-vectorchord0.5.3
           env:
             - name: POSTGRES_DB
               value: immich
@@ -30,11 +30,8 @@ spec:
                   key: DB_PASSWORD
           volumeMounts:
             - name: postgres
-              mountPath: /var/lib/postgresql
+              mountPath: /var/lib/postgresql/data
       volumes:
-#        - name: postgres-data
-#          persistentVolumeClaim:
-#            claimName: immich-postgres
-        - name: postgres
+        - name: postgres-data
           persistentVolumeClaim:
             claimName: immich-postgres
