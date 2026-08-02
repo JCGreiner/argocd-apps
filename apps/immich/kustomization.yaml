@@ -9,6 +9,7 @@ resources:
   - external-secret.yaml
   - ingress.yaml
   - pvc-immich-postgres.yaml
+  - pvc-immich-postgres18.yaml
   - service-postgres.yaml
   - service-redis.yaml
   - service-immich.yaml
