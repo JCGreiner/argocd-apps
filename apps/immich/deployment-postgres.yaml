@@ -29,9 +29,12 @@ spec:
                   name: immich-secret
                   key: DB_PASSWORD
           volumeMounts:
-            - name: postgres-data
-              mountPath: /var/lib/postgresql/data
+            - name: postgres
+              mountPath: /var/lib/postgresql
       volumes:
-        - name: postgres-data
+#        - name: postgres-data
+#          persistentVolumeClaim:
+#            claimName: immich-postgres
+        - name: postgres
           persistentVolumeClaim:
-            claimName: immich-postgres
+            claimName: immich-postgres-new
