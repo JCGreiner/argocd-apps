@@ -1,0 +1,123 @@
+# ============================================================
+# SolarEdge SE3000H derived sensors
+# ============================================================
+- sensor:
+    # ----------------------------------------------------------
+    # AC
+    # ----------------------------------------------------------
+    - name: "SolarEdge AC Power"
+      unique_id: solaredge_ac_power
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+      state: >
+        {% set value = states('sensor.solaredge_ac_power_raw') | float(0) %}
+        {% set sf = states('sensor.solaredge_ac_power_scale') | int(0) %}
+        {{ value * (10 ** sf) | round(0) }}
+
+    - name: "SolarEdge AC Current"
+      unique_id: solaredge_ac_current
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
+      state: >
+        {% set value = states('sensor.solaredge_ac_current_raw') | float(0) %}
+        {% set sf = states('sensor.solaredge_ac_current_scale') | int(0) %}
+        {{ value * (10 ** sf) | round(2) }}
+
+    - name: "SolarEdge AC Voltage"
+      unique_id: solaredge_ac_voltage
+      unit_of_measurement: "V"
+      device_class: voltage
+      state_class: measurement
+      state: >
+        {% set value = states('sensor.solaredge_ac_voltage_raw') | float(0) %}
+        {% set sf = states('sensor.solaredge_ac_voltage_scale') | int(0) %}
+        {{ value * (10 ** sf) | round(1) }}
+
+    - name: "SolarEdge AC Frequency"
+      unique_id: solaredge_ac_frequency
+      unit_of_measurement: "Hz"
+      state_class: measurement
+      state: >
+        {% set value = states('sensor.solaredge_ac_frequency_raw') | float(0) %}
+        {% set sf = states('sensor.solaredge_ac_frequency_scale') | int(0) %}
+        {{ value * (10 ** sf) | round(2) }}
+
+    # ----------------------------------------------------------
+    # DC
+    # ----------------------------------------------------------
+    - name: "SolarEdge DC Power"
+      unique_id: solaredge_dc_power
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+      state: >
+        {% set value = states('sensor.solaredge_dc_power_raw') | float(0) %}
+        {% set sf = states('sensor.solaredge_dc_power_scale') | int(0) %}
+        {{ value * (10 ** sf) | round(0) }}
+
+    - name: "SolarEdge DC Current"
+      unique_id: solaredge_dc_current
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
+      state: >
+        {% set value = states('sensor.solaredge_dc_current_raw') | float(0) %}
+        {% set sf = states('sensor.solaredge_dc_current_scale') | int(0) %}
+        {{ value * (10 ** sf) | round(2) }}
+
+    - name: "SolarEdge DC Voltage"
+      unique_id: solaredge_dc_voltage
+      unit_of_measurement: "V"
+      device_class: voltage
+      state_class: measurement
+      state: >
+        {% set value = states('sensor.solaredge_dc_voltage_raw') | float(0) %}
+        {% set sf = states('sensor.solaredge_dc_voltage_scale') | int(0) %}
+        {{ value * (10 ** sf) | round(1) }}
+
+    # ----------------------------------------------------------
+    # Lifetime energy
+    # ----------------------------------------------------------
+    - name: "SolarEdge Lifetime Energy"
+      unique_id: solaredge_lifetime_energy
+      unit_of_measurement: "Wh"
+      device_class: energy
+      state_class: total_increasing
+      state: >
+        {% set value = states('sensor.solaredge_lifetime_energy_raw') | float(0) %}
+        {% set sf = states('sensor.solaredge_lifetime_energy_scale') | int(0) %}
+        {{ value * (10 ** sf) | round(0) }}
+
+    # ----------------------------------------------------------
+    # Temperature
+    # ----------------------------------------------------------
+    - name: "SolarEdge Temperature"
+      unique_id: solaredge_temperature
+      unit_of_measurement: "°C"
+      device_class: temperature
+      state_class: measurement
+      state: >
+        {% set value = states('sensor.solaredge_temperature_raw') | float(0) %}
+        {% set sf = states('sensor.solaredge_temperature_scale') | int(0) %}
+        {{ value * (10 ** sf) | round(1) }}
+
+    # ----------------------------------------------------------
+    # Status
+    # ----------------------------------------------------------
+    - name: "SolarEdge Operating Status"
+      unique_id: solaredge_operating_status
+      state: >
+        {% set status = states('sensor.solaredge_status') | int(-1) %}
+        {% set statuses = {
+          1: 'Off',
+          2: 'Sleeping',
+          3: 'Starting',
+          4: 'Producing',
+          5: 'Throttled',
+          6: 'Shutting down',
+          7: 'Fault',
+          8: 'Standby'
+        } %}
+        {{ statuses.get(status, 'Unknown (' ~ status ~ ')') }}

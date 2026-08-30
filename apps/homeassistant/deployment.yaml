@@ -24,9 +24,8 @@ spec:
             - sh
             - -c
             - |
-              if [ ! -f /config/configuration.yaml ]; then
-                cp /config-source/configuration.yaml /config/configuration.yaml
-              fi
+              cp /config-source/configuration.yaml /config/configuration.yaml
+              cp /config-source/solaredge-template.yaml /config/solaredge-template.yaml
           volumeMounts:
             - name: config
               mountPath: /config

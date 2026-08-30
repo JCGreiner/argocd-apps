@@ -5,6 +5,7 @@ configMapGenerator:
   - name: homeassistant-config
     files:
       - configuration.yaml
+      - solaredge-template.yaml
 
 resources:
   - certificate.yaml
