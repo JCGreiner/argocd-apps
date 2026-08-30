@@ -17,9 +17,24 @@ spec:
         app: homeassistant
 
     spec:
+      initContainers:
+        - name: install-config
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              cp /config-source/configuration.yaml /config/configuration.yaml
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: config-source
+              mountPath: /config-source
+              readOnly: true
+
       containers:
         - name: homeassistant
-          image: ghcr.io/home-assistant/home-assistant:stable
+          image: ghcr.io/home-assistant/home-assistant:2026.8.3
 
           ports:
             - name: http
@@ -40,3 +55,7 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: homeassistant-config
+
+        - name: config-source
+          configMap:
+            name: homeassistant-config

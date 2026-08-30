@@ -1,4 +1,9 @@
 ---
+configMapGenerator:
+  - name: homeassistant-config
+    files:
+      - configuration.yaml
+
 resources:
   - certificate.yaml
   - deployment.yaml
