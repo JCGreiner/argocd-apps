@@ -1,16 +1,211 @@
 # Loads default set of integrations. Do not remove.
 default_config:
 
-# HTTP / reverse proxy configuration
+# ---------------------------------------------------------------------------
+# HTTP / reverse proxy
+# ---------------------------------------------------------------------------
+
 http:
   use_x_forwarded_for: true
   trusted_proxies:
     - 10.42.0.0/24
 
-# Load frontend themes from the themes folder
+# ---------------------------------------------------------------------------
+# SolarEdge SE3000H - SunSpec Modbus TCP
+#
+# Inverter:
+#   IP:       192.168.1.161
+#   TCP:      1502
+#   Unit ID:  1
+#
+# Home Assistant Modbus addresses are the zero-based Modbus register
+# addresses, so SolarEdge SunSpec base-0 register 40071 is address 70.
+# ---------------------------------------------------------------------------
+
+modbus:
+  - name: solaredge
+    type: tcp
+    host: 192.168.1.161
+    port: 1502
+    timeout: 5
+
+    sensors:
+
+      # ---------------------------------------------------------------------
+      # AC
+      # ---------------------------------------------------------------------
+
+      - name: "SolarEdge AC Current"
+        unique_id: solaredge_ac_current
+        slave: 1
+        address: 70
+        input_type: holding
+        data_type: uint16
+        scale: 0.1
+        precision: 1
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scan_interval: 30
+
+      - name: "SolarEdge AC Voltage"
+        unique_id: solaredge_ac_voltage
+        slave: 1
+        address: 78
+        input_type: holding
+        data_type: uint16
+        scale: 0.1
+        precision: 1
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        scan_interval: 30
+
+      - name: "SolarEdge AC Power"
+        unique_id: solaredge_ac_power
+        slave: 1
+        address: 82
+        input_type: holding
+        data_type: int16
+        scale: 1
+        precision: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scan_interval: 10
+
+      - name: "SolarEdge AC Frequency"
+        unique_id: solaredge_ac_frequency
+        slave: 1
+        address: 84
+        input_type: holding
+        data_type: uint16
+        scale: 0.01
+        precision: 2
+        unit_of_measurement: Hz
+        device_class: frequency
+        state_class: measurement
+        scan_interval: 30
+
+      # ---------------------------------------------------------------------
+      # AC lifetime energy
+      #
+      # SolarEdge stores this as a 32-bit accumulator at 40093/40094
+      # followed by its scale factor at 40095.
+      #
+      # We currently know from your inverter that the value is zero and
+      # therefore will verify the scaling before relying on this sensor.
+      # ---------------------------------------------------------------------
+
+      - name: "SolarEdge Lifetime Energy Raw"
+        unique_id: solaredge_lifetime_energy_raw
+        slave: 1
+        address: 92
+        input_type: holding
+        data_type: uint32
+        scan_interval: 60
+        device_class: energy
+        state_class: total
+
+      # ---------------------------------------------------------------------
+      # DC
+      # ---------------------------------------------------------------------
+
+      - name: "SolarEdge DC Current"
+        unique_id: solaredge_dc_current
+        slave: 1
+        address: 95
+        input_type: holding
+        data_type: uint16
+        scale: 0.1
+        precision: 1
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scan_interval: 30
+
+      - name: "SolarEdge DC Voltage"
+        unique_id: solaredge_dc_voltage
+        slave: 1
+        address: 97
+        input_type: holding
+        data_type: uint16
+        scale: 0.1
+        precision: 1
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        scan_interval: 30
+
+      - name: "SolarEdge DC Power"
+        unique_id: solaredge_dc_power
+        slave: 1
+        address: 99
+        input_type: holding
+        data_type: int16
+        scale: 1
+        precision: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scan_interval: 10
+
+      # ---------------------------------------------------------------------
+      # Temperature
+      # ---------------------------------------------------------------------
+
+      - name: "SolarEdge Inverter Temperature"
+        unique_id: solaredge_inverter_temperature
+        slave: 1
+        address: 102
+        input_type: holding
+        data_type: int16
+        scale: 0.1
+        precision: 1
+        unit_of_measurement: °C
+        device_class: temperature
+        state_class: measurement
+        scan_interval: 30
+
+      # ---------------------------------------------------------------------
+      # Operating status
+      #
+      # 1 = Off
+      # 2 = Sleeping
+      # 3 = Starting / grid monitoring
+      # 4 = MPPT / producing
+      # 5 = Throttled
+      # 6 = Shutting down
+      # 7 = Fault
+      # 8 = Standby
+      # ---------------------------------------------------------------------
+
+      - name: "SolarEdge Status"
+        unique_id: solaredge_status
+        slave: 1
+        address: 106
+        input_type: holding
+        data_type: uint16
+        scan_interval: 30
+
+      - name: "SolarEdge Vendor Status"
+        unique_id: solaredge_vendor_status
+        slave: 1
+        address: 107
+        input_type: holding
+        data_type: uint16
+        scan_interval: 30
+
+# ---------------------------------------------------------------------------
+# Frontend
+# ---------------------------------------------------------------------------
+
 frontend:
   themes: !include_dir_merge_named themes
 
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
+
+metadata:
+  name:
