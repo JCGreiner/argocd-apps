@@ -1,0 +1,29 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: homeassistant
+  namespace: homeassistant
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+    traefik.ingress.kubernetes.io/router.middlewares: "kube-system-secure-headers@kubernetescrd"
+
+spec:
+  ingressClassName: traefik
+
+  tls:
+    - hosts:
+        - ha.greiner.home
+      secretName: homeassistant-tls
+
+  rules:
+    - host: ha.greiner.home
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: homeassistant
+                port:
+                  number: 8123

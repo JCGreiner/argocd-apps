@@ -1,0 +1,4 @@
+---
+appName: homeassistant
+appPath: apps/homeassistant
+namespace: homeassistant
