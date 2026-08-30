@@ -24,7 +24,9 @@ spec:
             - sh
             - -c
             - |
-              cp /config-source/configuration.yaml /config/configuration.yaml
+              if [ ! -f /config/configuration.yaml ]; then
+                cp /config-source/configuration.yaml /config/configuration.yaml
+              fi
           volumeMounts:
             - name: config
               mountPath: /config
