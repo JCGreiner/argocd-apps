@@ -5,7 +5,7 @@ default_config:
 http:
   use_x_forwarded_for: true
   trusted_proxies:
-    - 10.42.0.0/24
+    - 10.42.0.196
 
 # Load frontend themes from the themes folder
 frontend:
