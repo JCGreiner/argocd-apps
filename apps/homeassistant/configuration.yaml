@@ -1,408 +1,234 @@
 # Loads default set of integrations. Do not remove.
 default_config:
 
-# ---------------------------------------------------------------------------
-# HTTP / reverse proxy
-# ---------------------------------------------------------------------------
+# HTTP / reverse proxy configuration
 http:
-use_x_forwarded_for: true
-trusted_proxies:
-  - 10.42.0.0/24
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 10.42.0.0/24
 
-# ---------------------------------------------------------------------------
-# Frontend
-# ---------------------------------------------------------------------------
+# Load frontend themes from the themes folder
 frontend:
-themes: !include_dir_merge_named themes
+  themes: !include_dir_merge_named themes
 
-# ---------------------------------------------------------------------------
-# SolarEdge SE3000H - SunSpec / Modbus TCP
-#
-# Inverter:
-# IP:       192.168.1.161
-# TCP:      1502
-# Unit ID:  1
-#
-# SunSpec model 101 starts at SolarEdge register 40070.
-#
-# Home Assistant Modbus addresses are zero-based:
-# SolarEdge 40084 -> HA address 83
-# SolarEdge 40085 -> HA address 84
-# SolarEdge 40094 -> HA address 93
-# SolarEdge 40095 -> HA address 94
-# SolarEdge 40096 -> HA address 95
-# ---------------------------------------------------------------------------
+# SolarEdge SE3000H - SunSpec Modbus TCP
 modbus:
   - name: solaredge
     type: tcp
     host: 192.168.1.161
     port: 1502
+    delay: 0
     timeout: 5
-    message_wait_milliseconds: 30
+    message_wait_milliseconds: 50
+
     sensors:
-      # ---------------------------------------------------------------------
-      # AC power
-      # SolarEdge 40084 = I_AC_Power
-      # SolarEdge 40085 = I_AC_Power_SF
-      # ---------------------------------------------------------------------
-      - name: "SolarEdge AC Power Raw"
-        unique_id: solaredge_ac_power_raw
-        slave: 1
-        address: 83
+
+      # ------------------------------------------------------------
+      # SunSpec inverter identification
+      # ------------------------------------------------------------
+
+      - name: "SolarEdge SunSpec Model"
+        unique_id: solaredge_sunspec_model
+        address: 68
         input_type: holding
         data_type: uint16
-        scan_interval: 10
-      - name: "SolarEdge AC Power Scale Factor"
-        unique_id: solaredge_ac_power_sf
         slave: 1
-        address: 84
-        input_type: holding
-        data_type: int16
-        scan_interval: 10
+        scan_interval: 300
 
-      # ---------------------------------------------------------------------
-      # AC frequency
-      # SolarEdge 40086 = I_AC_Frequency
-      # SolarEdge 40087 = I_AC_Frequency_SF
-      # ---------------------------------------------------------------------
-      - name: "SolarEdge AC Frequency Raw"
-        unique_id: solaredge_ac_frequency_raw
-        slave: 1
-        address: 85
-        input_type: holding
-        data_type: uint16
-        scan_interval: 10
-      - name: "SolarEdge AC Frequency Scale Factor"
-        unique_id: solaredge_ac_frequency_sf
-        slave: 1
-        address: 86
-        input_type: holding
-        data_type: int16
-        scan_interval: 10
+      # ------------------------------------------------------------
+      # AC measurements
+      #
+      # SolarEdge SunSpec:
+      # 40071 AC current
+      # 40075 current SF
+      # 40076-40081 AC voltages
+      # 40082 voltage SF
+      # 40083 AC power
+      # 40084 power SF
+      # 40085 frequency
+      # 40086 frequency SF
+      # ------------------------------------------------------------
 
-      # ---------------------------------------------------------------------
-      # AC current
-      # SolarEdge 40072 = total AC current
-      # SolarEdge 40076 = current scale factor
-      # ---------------------------------------------------------------------
       - name: "SolarEdge AC Current Raw"
         unique_id: solaredge_ac_current_raw
-        slave: 1
         address: 71
         input_type: holding
         data_type: uint16
-        scan_interval: 10
-      - name: "SolarEdge AC Current Scale Factor"
-        unique_id: solaredge_ac_current_sf
         slave: 1
+        scan_interval: 10
+
+      - name: "SolarEdge AC Current Scale"
+        unique_id: solaredge_ac_current_sf
         address: 75
         input_type: holding
         data_type: int16
-        scan_interval: 10
+        slave: 1
+        scan_interval: 60
 
-      # ---------------------------------------------------------------------
-      # AC voltage - phase A-N
-      # SolarEdge 40080 = voltage A-N
-      # SolarEdge 40083 = voltage scale factor
-      # ---------------------------------------------------------------------
       - name: "SolarEdge AC Voltage Raw"
         unique_id: solaredge_ac_voltage_raw
-        slave: 1
         address: 79
         input_type: holding
         data_type: uint16
-        scan_interval: 10
-      - name: "SolarEdge AC Voltage Scale Factor"
-        unique_id: solaredge_ac_voltage_sf
         slave: 1
+        scan_interval: 10
+
+      - name: "SolarEdge AC Voltage Scale"
+        unique_id: solaredge_ac_voltage_sf
         address: 82
         input_type: holding
         data_type: int16
+        slave: 1
+        scan_interval: 60
+
+      - name: "SolarEdge AC Power Raw"
+        unique_id: solaredge_ac_power_raw
+        address: 83
+        input_type: holding
+        data_type: int16
+        slave: 1
         scan_interval: 10
 
-      # ---------------------------------------------------------------------
-      # AC lifetime energy
+      - name: "SolarEdge AC Power Scale"
+        unique_id: solaredge_ac_power_sf
+        address: 84
+        input_type: holding
+        data_type: int16
+        slave: 1
+        scan_interval: 60
+
+      - name: "SolarEdge AC Frequency Raw"
+        unique_id: solaredge_ac_frequency_raw
+        address: 85
+        input_type: holding
+        data_type: uint16
+        slave: 1
+        scan_interval: 10
+
+      - name: "SolarEdge AC Frequency Scale"
+        unique_id: solaredge_ac_frequency_sf
+        address: 86
+        input_type: holding
+        data_type: int16
+        slave: 1
+        scan_interval: 60
+
+      # ------------------------------------------------------------
+      # Lifetime energy
       #
-      # SolarEdge 40094-40095 = uint32 accumulated Wh
-      # SolarEdge 40096      = energy scale factor
-      #
-      # This is the sensor we will ultimately use for the Energy dashboard.
-      # ---------------------------------------------------------------------
+      # 40093-40094 = uint32 Wh
+      # 40095       = signed scale factor
+      # ------------------------------------------------------------
+
       - name: "SolarEdge Lifetime Energy Raw"
         unique_id: solaredge_lifetime_energy_raw
-        slave: 1
-        address: 93
+        address: 92
         input_type: holding
         data_type: uint32
-        scan_interval: 30
-      - name: "SolarEdge Lifetime Energy Scale Factor"
-        unique_id: solaredge_lifetime_energy_sf
         slave: 1
-        address: 95
+        scan_interval: 60
+
+      - name: "SolarEdge Lifetime Energy Scale"
+        unique_id: solaredge_lifetime_energy_sf
+        address: 94
         input_type: holding
         data_type: int16
-        scan_interval: 30
+        slave: 1
+        scan_interval: 60
 
-      # ---------------------------------------------------------------------
-      # DC current
-      # SolarEdge 40097 = DC current
-      # SolarEdge 40098 = DC current SF
-      # ---------------------------------------------------------------------
+      # ------------------------------------------------------------
+      # DC measurements
+      # ------------------------------------------------------------
+
       - name: "SolarEdge DC Current Raw"
         unique_id: solaredge_dc_current_raw
-        slave: 1
-        address: 96
+        address: 95
         input_type: holding
         data_type: uint16
-        scan_interval: 10
-      - name: "SolarEdge DC Current Scale Factor"
-        unique_id: solaredge_dc_current_sf
         slave: 1
-        address: 97
-        input_type: holding
-        data_type: int16
         scan_interval: 10
 
-      # ---------------------------------------------------------------------
-      # DC voltage
-      # SolarEdge 40099 = DC voltage
-      # SolarEdge 40100 = DC voltage SF
-      # ---------------------------------------------------------------------
+      - name: "SolarEdge DC Current Scale"
+        unique_id: solaredge_dc_current_sf
+        address: 96
+        input_type: holding
+        data_type: int16
+        slave: 1
+        scan_interval: 60
+
       - name: "SolarEdge DC Voltage Raw"
         unique_id: solaredge_dc_voltage_raw
-        slave: 1
-        address: 98
+        address: 97
         input_type: holding
         data_type: uint16
-        scan_interval: 10
-      - name: "SolarEdge DC Voltage Scale Factor"
-        unique_id: solaredge_dc_voltage_sf
         slave: 1
+        scan_interval: 10
+
+      - name: "SolarEdge DC Voltage Scale"
+        unique_id: solaredge_dc_voltage_sf
+        address: 98
+        input_type: holding
+        data_type: int16
+        slave: 1
+        scan_interval: 60
+
+      - name: "SolarEdge DC Power Raw"
+        unique_id: solaredge_dc_power_raw
         address: 99
         input_type: holding
         data_type: int16
+        slave: 1
         scan_interval: 10
 
-      # ---------------------------------------------------------------------
-      # DC power
-      # SolarEdge 40101 = DC power
-      # SolarEdge 40102 = DC power SF
-      # ---------------------------------------------------------------------
-      - name: "SolarEdge DC Power Raw"
-        unique_id: solaredge_dc_power_raw
-        slave: 1
+      - name: "SolarEdge DC Power Scale"
+        unique_id: solaredge_dc_power_sf
         address: 100
         input_type: holding
-        data_type: uint16
-        scan_interval: 10
-      - name: "SolarEdge DC Power Scale Factor"
-        unique_id: solaredge_dc_power_sf
-        slave: 1
-        address: 101
-        input_type: holding
         data_type: int16
-        scan_interval: 10
+        slave: 1
+        scan_interval: 60
 
-      # ---------------------------------------------------------------------
-      # Heat-sink temperature
-      # SolarEdge 40104 = temperature
-      # SolarEdge 40107 = temperature SF
-      # ---------------------------------------------------------------------
+      # ------------------------------------------------------------
+      # Temperature / status
+      # ------------------------------------------------------------
+
       - name: "SolarEdge Temperature Raw"
         unique_id: solaredge_temperature_raw
-        slave: 1
-        address: 103
+        address: 102
         input_type: holding
         data_type: int16
+        slave: 1
         scan_interval: 30
-      - name: "SolarEdge Temperature Scale Factor"
+
+      - name: "SolarEdge Temperature Scale"
         unique_id: solaredge_temperature_sf
-        slave: 1
-        address: 106
+        address: 105
         input_type: holding
         data_type: int16
-        scan_interval: 30
-
-      # ---------------------------------------------------------------------
-      # Inverter status
-      # SolarEdge 40108 = status
-      # ---------------------------------------------------------------------
-      - name: "SolarEdge Status Raw"
-        unique_id: solaredge_status_raw
         slave: 1
-        address: 107
-        input_type: holding
-        data_type: uint16
-        scan_interval: 10
-      - name: "SolarEdge Vendor Status"
-        unique_id: solaredge_vendor_status
-        slave: 1
-        address: 108
-        input_type: holding
-        data_type: uint16
-        scan_interval: 30
-
-        # ---------------------------------------------------------------------------
-        # Calculated SolarEdge sensors
-        # ---------------------------------------------------------------------------
-        template:
-
-  - sensor:
-      - name: "SolarEdge AC Power"
-        unique_id: solaredge_ac_power
-        device_class: power
-        state_class: measurement
-        unit_of_measurement: W
-        state: >
-          {% set raw = states('sensor.solaredge_ac_power_raw') | float(none) %}
-          {% set sf = states('sensor.solaredge_ac_power_scale_factor') | int(none) %}
-          {% if raw is none or sf is none %}
-          {{ none }}
-          {% else %}
-          {{ (raw * (10 ** sf)) | round(1) }}
-          {% endif %}
-
-      - name: "SolarEdge AC Frequency"
-        unique_id: solaredge_ac_frequency
-        device_class: frequency
-        state_class: measurement
-        unit_of_measurement: Hz
-        state: >
-          {% set raw = states('sensor.solaredge_ac_frequency_raw') | float(none) %}
-          {% set sf = states('sensor.solaredge_ac_frequency_scale_factor') | int(none) %}
-          {% if raw is none or sf is none %}
-          {{ none }}
-          {% else %}
-          {{ (raw * (10 ** sf)) | round(3) }}
-          {% endif %}
-
-      - name: "SolarEdge AC Current"
-        unique_id: solaredge_ac_current
-        device_class: current
-        state_class: measurement
-        unit_of_measurement: A
-        state: >
-          {% set raw = states('sensor.solaredge_ac_current_raw') | float(none) %}
-          {% set sf = states('sensor.solaredge_ac_current_scale_factor') | int(none) %}
-          {% if raw is none or sf is none %}
-          {{ none }}
-          {% else %}
-          {{ (raw * (10 ** sf)) | round(2) }}
-          {% endif %}
-
-      - name: "SolarEdge AC Voltage"
-        unique_id: solaredge_ac_voltage
-        device_class: voltage
-        state_class: measurement
-        unit_of_measurement: V
-        state: >
-          {% set raw = states('sensor.solaredge_ac_voltage_raw') | float(none) %}
-          {% set sf = states('sensor.solaredge_ac_voltage_scale_factor') | int(none) %}
-          {% if raw is none or sf is none %}
-          {{ none }}
-          {% else %}
-          {{ (raw * (10 ** sf)) | round(1) }}
-          {% endif %}
-
-      - name: "SolarEdge Lifetime Energy"
-        unique_id: solaredge_lifetime_energy
-        device_class: energy
-        state_class: total
-        unit_of_measurement: kWh
-        state: >
-          {% set raw = states('sensor.solaredge_lifetime_energy_raw') | float(none) %}
-          {% set sf = states('sensor.solaredge_lifetime_energy_scale_factor') | int(none) %}
-          {% if raw is none or sf is none %}
-          {{ none }}
-          {% else %}
-          {{ (raw * (10 ** sf) / 1000) | round(3) }}
-          {% endif %}
-
-      - name: "SolarEdge DC Current"
-        unique_id: solaredge_dc_current
-        device_class: current
-        state_class: measurement
-        unit_of_measurement: A
-        state: >
-          {% set raw = states('sensor.solaredge_dc_current_raw') | float(none) %}
-          {% set sf = states('sensor.solaredge_dc_current_scale_factor') | int(none) %}
-          {% if raw is none or sf is none %}
-          {{ none }}
-          {% else %}
-          {{ (raw * (10 ** sf)) | round(2) }}
-          {% endif %}
-
-      - name: "SolarEdge DC Voltage"
-        unique_id: solaredge_dc_voltage
-        device_class: voltage
-        state_class: measurement
-        unit_of_measurement: V
-        state: >
-          {% set raw = states('sensor.solaredge_dc_voltage_raw') | float(none) %}
-          {% set sf = states('sensor.solaredge_dc_voltage_scale_factor') | int(none) %}
-          {% if raw is none or sf is none %}
-          {{ none }}
-          {% else %}
-          {{ (raw * (10 ** sf)) | round(1) }}
-          {% endif %}
-
-      - name: "SolarEdge DC Power"
-        unique_id: solaredge_dc_power
-        device_class: power
-        state_class: measurement
-        unit_of_measurement: W
-        state: >
-          {% set raw = states('sensor.solaredge_dc_power_raw') | float(none) %}
-          {% set sf = states('sensor.solaredge_dc_power_scale_factor') | int(none) %}
-          {% if raw is none or sf is none %}
-          {{ none }}
-          {% else %}
-          {{ (raw * (10 ** sf)) | round(1) }}
-          {% endif %}
-
-      - name: "SolarEdge Temperature"
-        unique_id: solaredge_temperature
-        device_class: temperature
-        state_class: measurement
-        unit_of_measurement: °C
-        state: >
-          {% set raw = states('sensor.solaredge_temperature_raw') | float(none) %}
-          {% set sf = states('sensor.solaredge_temperature_scale_factor') | int(none) %}
-          {% if raw is none or sf is none %}
-          {{ none }}
-          {% else %}
-          {{ (raw * (10 ** sf)) | round(1) }}
-          {% endif %}
+        scan_interval: 60
 
       - name: "SolarEdge Status"
         unique_id: solaredge_status
-        state: >
-          {% set status = states('sensor.solaredge_status_raw') | int(-1) %}
-          {% if status == 1 %}
-          Off
-          {% elif status == 2 %}
-          Sleeping
-          {% elif status == 3 %}
-          Starting
-          {% elif status == 4 %}
-          Producing
-          {% elif status == 5 %}
-          Throttled
-          {% elif status == 6 %}
-          Shutting down
-          {% elif status == 7 %}
-          Fault
-          {% elif status == 8 %}
-          Standby
-          {% else %}
-          Unknown
-          {% endif %}
-          
-          # --------------------------------------------------------------------------- 
-          # Standard Home Assistant files
-          # ---------------------------------------------------------------------------
-          automation: !include automations.yaml
-          script: !include scripts.yaml
-          scene: !include scenes.yaml
+        address: 106
+        input_type: holding
+        data_type: uint16
+        slave: 1
+        scan_interval: 30
+
+      - name: "SolarEdge Vendor Status"
+        unique_id: solaredge_vendor_status
+        address: 107
+        input_type: holding
+        data_type: uint16
+        slave: 1
+        scan_interval: 30
+
+# Derived SolarEdge sensors
+template: !include solaredge-template.yaml
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
 metadata:
   name:
