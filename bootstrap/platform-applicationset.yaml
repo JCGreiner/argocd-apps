@@ -21,7 +21,7 @@ spec:
           - name: rancher
             chart: rancher
             repoURL: https://releases.rancher.com/server-charts/latest
-            targetRevision: 2.15.0
+            targetRevision: 2.15.1
             namespace: cattle-system
           - name: woodpecker-ci
             chart: woodpecker
