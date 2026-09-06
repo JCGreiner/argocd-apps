@@ -1,6 +1,6 @@
 ---
 generatorOptions:
-  disableNameSuffixHash: false
+  disableNameSuffixHash: true
 configMapGenerator:
   - name: homeassistant-config
     files:
