@@ -247,7 +247,7 @@ modbus:
 lovelace:
   mode: yaml
   dashboards:
-    solar:
+    solar-power:
       mode: yaml
       title: Solar
       icon: mdi:solar-power
