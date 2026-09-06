@@ -244,7 +244,7 @@ modbus:
         scan_interval: 60
 
 # Derived SolarEdge sensors
-#template: !include solaredge-template.yaml
+template: !include solaredge-template.yaml
 
 automation: !include automations.yaml
 script: !include scripts.yaml
