@@ -6,16 +6,13 @@ metadata:
   namespace: homeassistant
 spec:
   replicas: 1
-
   selector:
     matchLabels:
       app: homeassistant
-
   template:
     metadata:
       labels:
         app: homeassistant
-
     spec:
       initContainers:
         - name: install-config
@@ -26,37 +23,35 @@ spec:
             - |
               cp /config-source/configuration.yaml /config/configuration.yaml
               cp /config-source/solaredge-template.yaml /config/solaredge-template.yaml
+              cp /config-source/automations.yaml /config/automations.yaml
+              cp /config-source/scripts.yaml /config/scripts.yaml
+              cp /config-source/scenes.yaml /config/scenes.yaml
+              cp /config-source/solar-dashboard.yaml /config/solar-dashboard.yaml
           volumeMounts:
             - name: config
               mountPath: /config
             - name: config-source
               mountPath: /config-source
               readOnly: true
-
       containers:
         - name: homeassistant
           image: ghcr.io/home-assistant/home-assistant:2026.8.3
-
           ports:
             - name: http
               containerPort: 8123
-
           volumeMounts:
             - name: config
               mountPath: /config
-
           resources:
             requests:
               cpu: 100m
               memory: 256Mi
             limits:
               memory: 1Gi
-
       volumes:
         - name: config
           persistentVolumeClaim:
             claimName: homeassistant-config
-
         - name: config-source
           configMap:
             name: homeassistant-config

@@ -1,11 +1,15 @@
 ---
 generatorOptions:
-  disableNameSuffixHash: true
+  disableNameSuffixHash: false
 configMapGenerator:
   - name: homeassistant-config
     files:
       - configuration.yaml
       - solaredge-template.yaml
+      - automations.yaml
+      - scripts.yaml
+      - scenes.yaml
+      - solar-dashboard.yaml
 
 resources:
   - certificate.yaml

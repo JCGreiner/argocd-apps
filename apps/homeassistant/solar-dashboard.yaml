@@ -1,0 +1,39 @@
+title: Solar
+views:
+  - title: Overview
+    cards:
+      - type: gauge
+        entity: sensor.solaredge_ac_power
+        name: AC Power
+        min: 0
+        max: 3000
+        severity:
+          green: 500
+          yellow: 100
+          red: 0
+
+      - type: entities
+        title: Inverter Detail
+        entities:
+          - entity: sensor.solaredge_operating_status
+          - entity: sensor.solaredge_ac_power
+          - entity: sensor.solaredge_dc_power
+          - entity: sensor.solaredge_ac_voltage
+          - entity: sensor.solaredge_ac_current
+          - entity: sensor.solaredge_ac_frequency
+          - entity: sensor.solaredge_temperature
+
+      - type: statistics-graph
+        title: Lifetime Energy
+        entities:
+          - sensor.solaredge_lifetime_energy
+        stat_types:
+          - sum
+        period: day
+        days_to_show: 30
+
+      - type: history-graph
+        title: AC Power (last 24h)
+        entities:
+          - sensor.solaredge_ac_power
+        hours_to_show: 24

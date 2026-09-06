@@ -243,9 +243,20 @@ modbus:
         slave: 1
         scan_interval: 60
 
+# Dashboards
+lovelace:
+  mode: yaml
+  dashboards:
+    solar:
+      mode: yaml
+      title: Solar
+      icon: mdi:solar-power
+      show_in_sidebar: true
+      filename: solar-dashboard.yaml
+
 # Derived SolarEdge sensors
 template: !include solaredge-template.yaml
 
-automation: !include automations.yaml
-script: !include scripts.yaml
-scene: !include scenes.yaml
+#automation: !include automations.yaml
+#script: !include scripts.yaml
+#scene: !include scenes.yaml
