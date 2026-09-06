@@ -17,9 +17,9 @@ modbus:
     type: tcp
     host: 192.168.1.161
     port: 1502
-    delay: 0
-    timeout: 5
-    message_wait_milliseconds: 50
+    delay: 100
+    timeout: 10
+    message_wait_milliseconds: 200
 
     sensors:
 
@@ -55,7 +55,7 @@ modbus:
         input_type: holding
         data_type: uint16
         slave: 1
-        scan_interval: 10
+        scan_interval: 30
 
       - name: "SolarEdge AC Current Scale"
         unique_id: solaredge_ac_current_sf
@@ -71,7 +71,7 @@ modbus:
         input_type: holding
         data_type: uint16
         slave: 1
-        scan_interval: 10
+        scan_interval: 30
 
       - name: "SolarEdge AC Voltage Scale"
         unique_id: solaredge_ac_voltage_sf
@@ -87,7 +87,7 @@ modbus:
         input_type: holding
         data_type: int16
         slave: 1
-        scan_interval: 10
+        scan_interval: 30
 
       - name: "SolarEdge AC Power Scale"
         unique_id: solaredge_ac_power_sf
@@ -103,7 +103,7 @@ modbus:
         input_type: holding
         data_type: uint16
         slave: 1
-        scan_interval: 10
+        scan_interval: 30
 
       - name: "SolarEdge AC Frequency Scale"
         unique_id: solaredge_ac_frequency_sf
@@ -146,7 +146,7 @@ modbus:
         input_type: holding
         data_type: uint16
         slave: 1
-        scan_interval: 10
+        scan_interval: 30
 
       - name: "SolarEdge DC Current Scale"
         unique_id: solaredge_dc_current_sf
@@ -162,7 +162,7 @@ modbus:
         input_type: holding
         data_type: uint16
         slave: 1
-        scan_interval: 10
+        scan_interval: 30
 
       - name: "SolarEdge DC Voltage Scale"
         unique_id: solaredge_dc_voltage_sf
@@ -178,7 +178,7 @@ modbus:
         input_type: holding
         data_type: int16
         slave: 1
-        scan_interval: 10
+        scan_interval: 30
 
       - name: "SolarEdge DC Power Scale"
         unique_id: solaredge_dc_power_sf
