@@ -27,7 +27,7 @@ modbus:
       # ==========================================================
       - name: "SolarEdge SunSpec Model"
         unique_id: solaredge_sunspec_model
-        address: 68
+        address: 69
         input_type: holding
         data_type: uint16
         slave: 1
