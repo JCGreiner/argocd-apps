@@ -151,7 +151,7 @@ modbus:
         input_type: holding
         data_type: uint32
         slave: 1
-        swap: word
+        swap: byte
         scan_interval: 60
       - name: "SolarEdge Lifetime Energy Scale"
         unique_id: solaredge_lifetime_energy_scale
