@@ -11,7 +11,7 @@ http:
 frontend:
   themes: !include_dir_merge_named themes
 
-# SolarEdge SE3000H - SunSpec Modbus TCP
+# SolarEdge SE3000H - SunSpec Modbus TCP diagnostic
 modbus:
   - name: solaredge
     type: tcp
@@ -23,31 +23,9 @@ modbus:
 
     sensors:
 
-      # ------------------------------------------------------------
-      # SunSpec inverter identification
-      # ------------------------------------------------------------
-
-      - name: "SolarEdge SunSpec Model"
-        unique_id: solaredge_sunspec_model
-        address: 68
-        input_type: holding
-        data_type: uint16
-        slave: 1
-        scan_interval: 300
-
-      # ------------------------------------------------------------
-      # AC measurements
-      #
-      # SolarEdge SunSpec:
-      # 40071 AC current
-      # 40075 current SF
-      # 40076-40081 AC voltages
-      # 40082 voltage SF
-      # 40083 AC power
-      # 40084 power SF
-      # 40085 frequency
-      # 40086 frequency SF
-      # ------------------------------------------------------------
+      # ==========================================================
+      # Known-good AC registers
+      # ==========================================================
 
       - name: "SolarEdge AC Current Raw"
         unique_id: solaredge_ac_current_raw
@@ -55,7 +33,7 @@ modbus:
         input_type: holding
         data_type: uint16
         slave: 1
-        scan_interval: 30
+        scan_interval: 60
 
       - name: "SolarEdge AC Current Scale"
         unique_id: solaredge_ac_current_sf
@@ -71,7 +49,7 @@ modbus:
         input_type: holding
         data_type: uint16
         slave: 1
-        scan_interval: 30
+        scan_interval: 60
 
       - name: "SolarEdge AC Voltage Scale"
         unique_id: solaredge_ac_voltage_sf
@@ -87,7 +65,7 @@ modbus:
         input_type: holding
         data_type: int16
         slave: 1
-        scan_interval: 30
+        scan_interval: 60
 
       - name: "SolarEdge AC Power Scale"
         unique_id: solaredge_ac_power_sf
@@ -103,7 +81,7 @@ modbus:
         input_type: holding
         data_type: uint16
         slave: 1
-        scan_interval: 30
+        scan_interval: 60
 
       - name: "SolarEdge AC Frequency Scale"
         unique_id: solaredge_ac_frequency_sf
@@ -113,116 +91,180 @@ modbus:
         slave: 1
         scan_interval: 60
 
-      # ------------------------------------------------------------
-      # Lifetime energy
+      # ==========================================================
+      # Diagnostic registers 87-107
       #
-      # 40093-40094 = uint32 Wh
-      # 40095       = signed scale factor
-      # ------------------------------------------------------------
+      # Read everything as uint16 so we can see the actual
+      # register contents without applying SunSpec types/scales.
+      # ==========================================================
 
-      - name: "SolarEdge Lifetime Energy Raw"
-        unique_id: solaredge_lifetime_energy_raw
+      - name: "SE Test 87"
+        unique_id: se_test_87
+        address: 87
+        input_type: holding
+        data_type: uint16
+        slave: 1
+        scan_interval: 60
+
+      - name: "SE Test 88"
+        unique_id: se_test_88
+        address: 88
+        input_type: holding
+        data_type: uint16
+        slave: 1
+        scan_interval: 60
+
+      - name: "SE Test 89"
+        unique_id: se_test_89
+        address: 89
+        input_type: holding
+        data_type: uint16
+        slave: 1
+        scan_interval: 60
+
+      - name: "SE Test 90"
+        unique_id: se_test_90
+        address: 90
+        input_type: holding
+        data_type: uint16
+        slave: 1
+        scan_interval: 60
+
+      - name: "SE Test 91"
+        unique_id: se_test_91
+        address: 91
+        input_type: holding
+        data_type: uint16
+        slave: 1
+        scan_interval: 60
+
+      - name: "SE Test 92"
+        unique_id: se_test_92
         address: 92
         input_type: holding
-        data_type: uint32
+        data_type: uint16
         slave: 1
         scan_interval: 60
 
-      - name: "SolarEdge Lifetime Energy Scale"
-        unique_id: solaredge_lifetime_energy_sf
+      - name: "SE Test 93"
+        unique_id: se_test_93
+        address: 93
+        input_type: holding
+        data_type: uint16
+        slave: 1
+        scan_interval: 60
+
+      - name: "SE Test 94"
+        unique_id: se_test_94
         address: 94
         input_type: holding
-        data_type: int16
+        data_type: uint16
         slave: 1
         scan_interval: 60
 
-      # ------------------------------------------------------------
-      # DC measurements
-      # ------------------------------------------------------------
-
-      - name: "SolarEdge DC Current Raw"
-        unique_id: solaredge_dc_current_raw
+      - name: "SE Test 95"
+        unique_id: se_test_95
         address: 95
         input_type: holding
         data_type: uint16
         slave: 1
-        scan_interval: 30
+        scan_interval: 60
 
-      - name: "SolarEdge DC Current Scale"
-        unique_id: solaredge_dc_current_sf
+      - name: "SE Test 96"
+        unique_id: se_test_96
         address: 96
         input_type: holding
-        data_type: int16
+        data_type: uint16
         slave: 1
         scan_interval: 60
 
-      - name: "SolarEdge DC Voltage Raw"
-        unique_id: solaredge_dc_voltage_raw
+      - name: "SE Test 97"
+        unique_id: se_test_97
         address: 97
         input_type: holding
         data_type: uint16
         slave: 1
-        scan_interval: 30
+        scan_interval: 60
 
-      - name: "SolarEdge DC Voltage Scale"
-        unique_id: solaredge_dc_voltage_sf
+      - name: "SE Test 98"
+        unique_id: se_test_98
         address: 98
         input_type: holding
-        data_type: int16
+        data_type: uint16
         slave: 1
         scan_interval: 60
 
-      - name: "SolarEdge DC Power Raw"
-        unique_id: solaredge_dc_power_raw
+      - name: "SE Test 99"
+        unique_id: se_test_99
         address: 99
         input_type: holding
-        data_type: int16
+        data_type: uint16
         slave: 1
-        scan_interval: 30
+        scan_interval: 60
 
-      - name: "SolarEdge DC Power Scale"
-        unique_id: solaredge_dc_power_sf
+      - name: "SE Test 100"
+        unique_id: se_test_100
         address: 100
         input_type: holding
-        data_type: int16
+        data_type: uint16
         slave: 1
         scan_interval: 60
 
-      # ------------------------------------------------------------
-      # Temperature / status
-      # ------------------------------------------------------------
+      - name: "SE Test 101"
+        unique_id: se_test_101
+        address: 101
+        input_type: holding
+        data_type: uint16
+        slave: 1
+        scan_interval: 60
 
-      - name: "SolarEdge Temperature Raw"
-        unique_id: solaredge_temperature_raw
+      - name: "SE Test 102"
+        unique_id: se_test_102
         address: 102
         input_type: holding
-        data_type: int16
-        slave: 1
-        scan_interval: 30
-
-      - name: "SolarEdge Temperature Scale"
-        unique_id: solaredge_temperature_sf
-        address: 105
-        input_type: holding
-        data_type: int16
+        data_type: uint16
         slave: 1
         scan_interval: 60
 
-      - name: "SolarEdge Status"
-        unique_id: solaredge_status
+      - name: "SE Test 103"
+        unique_id: se_test_103
+        address: 103
+        input_type: holding
+        data_type: uint16
+        slave: 1
+        scan_interval: 60
+
+      - name: "SE Test 104"
+        unique_id: se_test_104
+        address: 104
+        input_type: holding
+        data_type: uint16
+        slave: 1
+        scan_interval: 60
+
+      - name: "SE Test 105"
+        unique_id: se_test_105
+        address: 105
+        input_type: holding
+        data_type: uint16
+        slave: 1
+        scan_interval: 60
+
+      - name: "SE Test 106"
+        unique_id: se_test_106
         address: 106
         input_type: holding
         data_type: uint16
         slave: 1
-        scan_interval: 30
+        scan_interval: 60
 
-      - name: "SolarEdge Vendor Status"
-        unique_id: solaredge_vendor_status
+      - name: "SE Test 107"
+        unique_id: se_test_107
         address: 107
         input_type: holding
         data_type: uint16
         slave: 1
-        scan_interval: 30
+        scan_interval: 60
 
 # Derived SolarEdge sensors
 template: !include solaredge-template.yaml
