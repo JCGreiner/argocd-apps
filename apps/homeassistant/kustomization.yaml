@@ -1,6 +1,6 @@
 ---
 generatorOptions:
-  disableNameSuffixHash: true
+  disableNameSuffixHash: false
 configMapGenerator:
   - name: homeassistant-config
     files:
@@ -10,7 +10,17 @@ configMapGenerator:
       - scripts.yaml
       - scenes.yaml
       - solar-dashboard.yaml
-
+replacements:
+  - source:
+      kind: ConfigMap
+      name: homeassistant-config
+      fieldPath: metadata.name
+    targets:
+      - select:
+          kind: Deployment
+          name: homeassistant
+        fieldPaths:
+          - spec.template.spec.volumes.[name=config-source].configMap.name
 resources:
   - certificate.yaml
   - deployment.yaml
