@@ -247,11 +247,11 @@ modbus:
 lovelace:
   resource_mode: yaml
   dashboards:
-    lovelace:
+    solar-power:
       mode: yaml
-      filename: ui-lovelace.yaml
-      title: Overview
-      icon: mdi:view-dashboard
+      filename: solar-dashboard.yaml
+      title: Solar
+      icon: mdi:solar-power
       show_in_sidebar: true
 
 # Derived SolarEdge sensors
