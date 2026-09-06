@@ -118,6 +118,8 @@
           5: 'Throttled',
           6: 'Shutting down',
           7: 'Fault',
-          8: 'Standby'
+          8: 'Standby',
+          65534: 'Idle (no data)',
+          65535: 'Idle (no data)'
         } %}
         {{ statuses.get(status, 'Unknown (' ~ status ~ ')') }}
