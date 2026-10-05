@@ -28,6 +28,7 @@ spec:
               cp /config-source/scripts.yaml /config/scripts.yaml
               cp /config-source/scenes.yaml /config/scenes.yaml
               cp /config-source/solar-dashboard.yaml /config/solar-dashboard.yaml
+              cp /config-source/solar-battery-dashboard.yaml /config/solar-battery-dashboard.yaml
           volumeMounts:
             - name: config
               mountPath: /config

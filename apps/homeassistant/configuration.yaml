@@ -391,6 +391,12 @@ lovelace:
       title: Solar
       icon: mdi:solar-power
       show_in_sidebar: true
+    solar-battery:
+      mode: yaml
+      filename: solar-battery-dashboard.yaml
+      title: Solar + Battery
+      icon: mdi:battery-solar
+      show_in_sidebar: true
 
 # Derived SolarEdge sensors
 template: !include solaredge-template.yaml
