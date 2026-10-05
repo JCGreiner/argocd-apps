@@ -1,150 +1,123 @@
-title: Energy
+title: Energy + Battery
+
 views:
-  - title: Energy + Battery
+  - title: Energy
     path: overview
-    icon: mdi:lightning-bolt
-    cards:
+    type: sections
+    max_columns: 3
 
-      # --------------------------------------------------------
-      # Current power flow
-      # --------------------------------------------------------
-      - type: energy-distribution
-        link_dashboard: false
-        entities:
-          solar:
-            - sensor.virtual_solar_power
-          grid:
-            - sensor.virtual_grid_import_power
-            - sensor.virtual_grid_export_power
-          battery:
-            - sensor.virtual_battery_power
-          home:
-            - sensor.virtual_home_power
+    sections:
 
-      # --------------------------------------------------------
-      # Current values
-      # --------------------------------------------------------
-      - type: entities
-        title: Current Power
-        entities:
-          - entity: sensor.virtual_solar_power
-            name: Solar Production
+      # ========================================================
+      # Current Power
+      # ========================================================
+      - type: grid
+        cards:
+          - type: heading
+            heading: Current Power
+            heading_style: title
 
-          - entity: sensor.virtual_home_power
-            name: Home Consumption
+          - type: entities
+            entities:
+              - entity: sensor.virtual_solar_power
+                name: Solar Production
+              - entity: sensor.virtual_home_power
+                name: Home Consumption
+              - entity: sensor.virtual_solar_surplus
+                name: Solar Surplus
+              - entity: sensor.virtual_battery_power
+                name: Battery Power
+              - entity: sensor.virtual_grid_import_power
+                name: Grid Import
+              - entity: sensor.virtual_grid_export_power
+                name: Grid Export
 
-          - entity: sensor.virtual_solar_surplus
-            name: Solar Surplus
-
-          - entity: sensor.virtual_battery_power
-            name: Battery Power
-
-          - entity: sensor.virtual_grid_import_power
-            name: Grid Import
-
-          - entity: sensor.virtual_grid_export_power
-            name: Grid Export
-
-      # --------------------------------------------------------
+      # ========================================================
       # Battery
-      # --------------------------------------------------------
-      - type: gauge
-        entity: sensor.virtual_battery_state_of_charge
-        name: Simulated Battery
-        min: 10
-        max: 100
-        severity:
-          red: 10
-          yellow: 30
-          green: 60
+      # ========================================================
+      - type: grid
+        cards:
+          - type: heading
+            heading: Simulated Battery
+            heading_style: title
 
-      - type: entities
-        title: Simulated Battery
-        entities:
-          - entity: sensor.virtual_battery_state_of_charge
+          - type: gauge
+            entity: sensor.virtual_battery_state_of_charge
             name: State of Charge
+            min: 10
+            max: 100
+            severity:
+              red: 10
+              yellow: 30
+              green: 60
 
-          - entity: sensor.virtual_battery_charge_power
-            name: Charging
+          - type: entities
+            entities:
+              - entity: sensor.virtual_battery_charge_power
+                name: Charging
+              - entity: sensor.virtual_battery_discharge_power
+                name: Discharging
+              - entity: input_number.virtual_battery_capacity
+                name: Capacity
+              - entity: input_number.virtual_battery_max_charge
+                name: Max Charge
+              - entity: input_number.virtual_battery_max_discharge
+                name: Max Discharge
 
-          - entity: sensor.virtual_battery_discharge_power
-            name: Discharging
+      # ========================================================
+      # Today's Energy
+      # ========================================================
+      - type: grid
+        cards:
+          - type: heading
+            heading: Today
+            heading_style: title
 
-          - entity: sensor.virtual_battery_energy_charged
-            name: Energy Charged
+          - type: entities
+            entities:
+              - entity: sensor.virtual_battery_charged_today
+                name: Battery Charged
+              - entity: sensor.virtual_battery_discharged_today
+                name: Battery Discharged
+              - entity: sensor.virtual_grid_import_today
+                name: Grid Import
+              - entity: sensor.virtual_grid_export_today
+                name: Grid Export
 
-          - entity: sensor.virtual_battery_energy_discharged
-            name: Energy Discharged
+      # ========================================================
+      # Power History
+      # ========================================================
+      - type: grid
+        cards:
+          - type: heading
+            heading: Power Flow
+            heading_style: title
 
-      # --------------------------------------------------------
-      # Today's energy
-      # --------------------------------------------------------
-      - type: entities
-        title: Today
-        entities:
-          - entity: sensor.virtual_battery_charged_today
-            name: Battery Charged
+          - type: history-graph
+            hours_to_show: 24
+            entities:
+              - entity: sensor.virtual_solar_power
+                name: Solar
+              - entity: sensor.virtual_home_power
+                name: Home
+              - entity: sensor.virtual_battery_power
+                name: Battery
+              - entity: sensor.virtual_grid_import_power
+                name: Grid Import
+              - entity: sensor.virtual_grid_export_power
+                name: Grid Export
 
-          - entity: sensor.virtual_battery_discharged_today
-            name: Battery Discharged
+      # ========================================================
+      # Battery SOC History
+      # ========================================================
+      - type: grid
+        cards:
+          - type: heading
+            heading: Battery State of Charge
+            heading_style: title
 
-          - entity: sensor.virtual_grid_import_today
-            name: Grid Import
-
-          - entity: sensor.virtual_grid_export_today
-            name: Grid Export
-
-      # --------------------------------------------------------
-      # Power history
-      # --------------------------------------------------------
-      - type: history-graph
-        title: Power Flow - Last 24 Hours
-        hours_to_show: 24
-        entities:
-          - entity: sensor.virtual_solar_power
-            name: Solar
-
-          - entity: sensor.virtual_home_power
-            name: Home
-
-          - entity: sensor.virtual_battery_power
-            name: Battery
-
-          - entity: sensor.virtual_grid_import_power
-            name: Grid Import
-
-          - entity: sensor.virtual_grid_export_power
-            name: Grid Export
-
-      # --------------------------------------------------------
-      # Battery SOC
-      # --------------------------------------------------------
-      - type: history-graph
-        title: Simulated Battery SOC
-        hours_to_show: 24
-        entities:
-          - entity: sensor.virtual_battery_state_of_charge
-            name: Battery SOC
-
-      # --------------------------------------------------------
-      # Daily energy
-      # --------------------------------------------------------
-      - type: history-graph
-        title: Daily Grid Energy
-        hours_to_show: 168
-        entities:
-          - entity: sensor.virtual_grid_import_today
-            name: Grid Import
-
-          - entity: sensor.virtual_grid_export_today
-            name: Grid Export
-
-      - type: history-graph
-        title: Daily Battery Energy
-        hours_to_show: 168
-        entities:
-          - entity: sensor.virtual_battery_charged_today
-            name: Battery Charged
-
-          - entity: sensor.virtual_battery_discharged_today
-            name: Battery Discharged
+          - type: history-graph
+            hours_to_show: 24
+            entities:
+              - entity: sensor.virtual_battery_state_of_charge
+                name: Battery SOC
