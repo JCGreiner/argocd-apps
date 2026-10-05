@@ -11,6 +11,7 @@ configMapGenerator:
       - scenes.yaml
       - solar-dashboard.yaml
       - solar-battery-dashboard.yaml
+      - energy-dashboard.yaml
 replacements:
   - source:
       kind: ConfigMap

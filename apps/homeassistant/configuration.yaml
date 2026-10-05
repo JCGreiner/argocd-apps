@@ -397,6 +397,12 @@ lovelace:
       title: Solar + Battery
       icon: mdi:battery-solar
       show_in_sidebar: true
+    energy:
+      mode: yaml
+      filename: energy-dashboard.yaml
+      title: Energy
+      icon: mdi:lightning-bolt
+      show_in_sidebar: true
 
 # Derived SolarEdge sensors
 template: !include solaredge-template.yaml
