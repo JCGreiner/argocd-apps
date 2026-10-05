@@ -1,1 +1,38 @@
-[]
+- id: virtual_battery_update_soc
+  alias: "Virtual Battery - Update SOC"
+  description: "Simulate virtual battery state of charge"
+  triggers:
+    - trigger: time_pattern
+      minutes: "/1"
+
+  conditions:
+    - condition: template
+      value_template: >
+        {{ is_number(states('sensor.virtual_battery_charge_power'))
+           and is_number(states('sensor.virtual_battery_discharge_power')) }}
+
+  actions:
+    - variables:
+        soc: "{{ states('input_number.virtual_battery_soc') | float(50) }}"
+        capacity: "{{ states('input_number.virtual_battery_capacity') | float(10) }}"
+        charge_power: "{{ states('sensor.virtual_battery_charge_power') | float(0) / 1000 }}"
+        discharge_power: "{{ states('sensor.virtual_battery_discharge_power') | float(0) / 1000 }}"
+        charge_efficiency: "{{ states('input_number.virtual_battery_charge_efficiency') | float(95) / 100 }}"
+        discharge_efficiency: "{{ states('input_number.virtual_battery_discharge_efficiency') | float(95) / 100 }}"
+
+    - variables:
+        current_energy: "{{ capacity * soc / 100 }}"
+        charge_energy: "{{ charge_power * charge_efficiency / 60 }}"
+        discharge_energy: "{{ discharge_power / discharge_efficiency / 60 }}"
+        new_energy: >
+          {{ current_energy + charge_energy - discharge_energy }}
+
+    - action: input_number.set_value
+      target:
+        entity_id: input_number.virtual_battery_soc
+      data:
+        value: >
+          {% set value = (new_energy / capacity * 100) %}
+          {{ [[value, 10] | max, 100] | min | round(2) }}
+
+  mode: single
