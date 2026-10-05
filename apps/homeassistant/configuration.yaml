@@ -356,6 +356,31 @@ sensor:
     max_sub_interval:
       minutes: 5
 
+# ==========================================================
+# Virtual battery daily energy
+# ==========================================================
+utility_meter:
+
+  virtual_battery_charge_daily:
+    source: sensor.virtual_battery_energy_charged
+    name: Virtual Battery Charged Today
+    cycle: daily
+
+  virtual_battery_discharge_daily:
+    source: sensor.virtual_battery_energy_discharged
+    name: Virtual Battery Discharged Today
+    cycle: daily
+
+  virtual_grid_import_daily:
+    source: sensor.virtual_grid_import_energy
+    name: Virtual Grid Import Today
+    cycle: daily
+
+  virtual_grid_export_daily:
+    source: sensor.virtual_grid_export_energy
+    name: Virtual Grid Export Today
+    cycle: daily
+
 # Dashboards
 lovelace:
   resource_mode: yaml
