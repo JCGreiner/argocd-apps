@@ -1,6 +1,6 @@
 title: Energy
 views:
-  - title: Energy
+  - title: Energy + Battery
     path: overview
     icon: mdi:lightning-bolt
     cards:
