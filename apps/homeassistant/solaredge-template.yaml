@@ -136,3 +136,165 @@
           65535: 'Idle (no data)'
         } %}
         {{ statuses.get(status, 'Unknown (' ~ status ~ ')') }}
+
+# ============================================================
+# Virtual battery simulation
+# ============================================================
+
+- sensor:
+
+    # ----------------------------------------------------------
+    # Normalized source power
+    # ----------------------------------------------------------
+
+    - name: "Virtual Solar Power"
+      unique_id: virtual_solar_power
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+      state: >
+        {{ states('sensor.solaredge_ac_power') | float(0) | max(0) }}
+
+    - name: "Virtual Home Power"
+      unique_id: virtual_home_power
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+      state: >
+        {{ (states('sensor.slimmelezer_power_consumed') | float(0) * 1000) | max(0) }}
+
+    # ----------------------------------------------------------
+    # Solar surplus / deficit
+    # Positive = excess solar
+    # Negative = house needs grid/battery power
+    # ----------------------------------------------------------
+
+    - name: "Virtual Solar Surplus"
+      unique_id: virtual_solar_surplus
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+      state: >
+        {% set solar = states('sensor.solaredge_ac_power') | float(0) | max(0) %}
+        {% set home = states('sensor.slimmelezer_power_consumed') | float(0) * 1000 %}
+        {{ solar - home }}
+
+    # ----------------------------------------------------------
+    # Battery charge power
+    # ----------------------------------------------------------
+
+    - name: "Virtual Battery Charge Power"
+      unique_id: virtual_battery_charge_power
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+      state: >
+        {% set solar = states('sensor.solaredge_ac_power') | float(0) | max(0) %}
+        {% set home = states('sensor.slimmelezer_power_consumed') | float(0) * 1000 %}
+        {% set surplus = [solar - home, 0] | max %}
+
+        {% set soc = states('input_number.virtual_battery_soc') | float(50) %}
+        {% set capacity = states('input_number.virtual_battery_capacity') | float(10) %}
+        {% set max_charge = states('input_number.virtual_battery_max_charge') | float(3) * 1000 %}
+        {% set efficiency = states('input_number.virtual_battery_charge_efficiency') | float(95) / 100 %}
+
+        {% set stored_energy = capacity * soc / 100 %}
+        {% set remaining_energy = [capacity - stored_energy, 0] | max %}
+
+        {% if remaining_energy > 0 and efficiency > 0 %}
+          {% set capacity_limit = remaining_energy * 1000 / efficiency / 60 %}
+          {{ [surplus, max_charge, capacity_limit] | min }}
+        {% else %}
+          0
+        {% endif %}
+
+    # ----------------------------------------------------------
+    # Battery discharge power
+    # ----------------------------------------------------------
+
+    - name: "Virtual Battery Discharge Power"
+      unique_id: virtual_battery_discharge_power
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+      state: >
+        {% set solar = states('sensor.solaredge_ac_power') | float(0) | max(0) %}
+        {% set home = states('sensor.slimmelezer_power_consumed') | float(0) * 1000 %}
+        {% set deficit = [home - solar, 0] | max %}
+
+        {% set soc = states('input_number.virtual_battery_soc') | float(50) %}
+        {% set capacity = states('input_number.virtual_battery_capacity') | float(10) %}
+        {% set max_discharge = states('input_number.virtual_battery_max_discharge') | float(3) * 1000 %}
+        {% set efficiency = states('input_number.virtual_battery_discharge_efficiency') | float(95) / 100 %}
+        {% set minimum_soc = 10 %}
+
+        {% set stored_energy = capacity * soc / 100 %}
+        {% set usable_energy = [stored_energy - capacity * minimum_soc / 100, 0] | max %}
+
+        {% if usable_energy > 0 and efficiency > 0 %}
+          {% set capacity_limit = usable_energy * 1000 * efficiency / 60 %}
+          {{ [deficit, max_discharge, capacity_limit] | min }}
+        {% else %}
+          0
+        {% endif %}
+
+    # ----------------------------------------------------------
+    # Net battery power
+    #
+    # Positive = charging
+    # Negative = discharging
+    # ----------------------------------------------------------
+
+    - name: "Virtual Battery Power"
+      unique_id: virtual_battery_power
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+      state: >
+        {% set charge = states('sensor.virtual_battery_charge_power') | float(0) %}
+        {% set discharge = states('sensor.virtual_battery_discharge_power') | float(0) %}
+        {{ charge - discharge }}
+
+    # ----------------------------------------------------------
+    # Simulated grid export
+    # ----------------------------------------------------------
+
+    - name: "Virtual Grid Export Power"
+      unique_id: virtual_grid_export_power
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+      state: >
+        {% set solar = states('sensor.solaredge_ac_power') | float(0) | max(0) %}
+        {% set home = states('sensor.slimmelezer_power_consumed') | float(0) * 1000 %}
+        {% set surplus = [solar - home, 0] | max %}
+        {% set charge = states('sensor.virtual_battery_charge_power') | float(0) %}
+        {{ [surplus - charge, 0] | max }}
+
+    # ----------------------------------------------------------
+    # Simulated grid import
+    # ----------------------------------------------------------
+
+    - name: "Virtual Grid Import Power"
+      unique_id: virtual_grid_import_power
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+      state: >
+        {% set solar = states('sensor.solaredge_ac_power') | float(0) | max(0) %}
+        {% set home = states('sensor.slimmelezer_power_consumed') | float(0) * 1000 %}
+        {% set deficit = [home - solar, 0] | max %}
+        {% set discharge = states('sensor.virtual_battery_discharge_power') | float(0) %}
+        {{ [deficit - discharge, 0] | max }}
+
+    # ----------------------------------------------------------
+    # Battery state of charge
+    # ----------------------------------------------------------
+
+    - name: "Virtual Battery State of Charge"
+      unique_id: virtual_battery_state_of_charge
+      unit_of_measurement: "%"
+      device_class: battery
+      state_class: measurement
+      state: >
+        {{ states('input_number.virtual_battery_soc') | float(50) | round(2) }}
