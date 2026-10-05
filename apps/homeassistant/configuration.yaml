@@ -243,6 +243,70 @@ modbus:
         slave: 1
         scan_interval: 60
 
+# ==========================================================
+# Virtual battery simulation
+# ==========================================================
+input_number:
+
+  virtual_battery_soc:
+    name: Virtual Battery SOC
+    min: 10
+    max: 100
+    step: 0.01
+    unit_of_measurement: "%"
+    mode: box
+    icon: mdi:battery
+
+  virtual_battery_capacity:
+    name: Virtual Battery Capacity
+    min: 1
+    max: 50
+    step: 0.1
+    initial: 10
+    unit_of_measurement: "kWh"
+    mode: box
+    icon: mdi:battery-high
+
+  virtual_battery_max_charge:
+    name: Virtual Battery Max Charge
+    min: 0.5
+    max: 20
+    step: 0.1
+    initial: 3
+    unit_of_measurement: "kW"
+    mode: box
+    icon: mdi:battery-plus
+
+  virtual_battery_max_discharge:
+    name: Virtual Battery Max Discharge
+    min: 0.5
+    max: 20
+    step: 0.1
+    initial: 3
+    unit_of_measurement: "kW"
+    mode: box
+    icon: mdi:battery-minus
+
+  virtual_battery_charge_efficiency:
+    name: Virtual Battery Charge Efficiency
+    min: 50
+    max: 100
+    step: 0.1
+    initial: 95
+    unit_of_measurement: "%"
+    mode: box
+    icon: mdi:battery-arrow-up
+
+  virtual_battery_discharge_efficiency:
+    name: Virtual Battery Discharge Efficiency
+    min: 50
+    max: 100
+    step: 0.1
+    initial: 95
+    unit_of_measurement: "%"
+    mode: box
+    icon: mdi:battery-arrow-down
+
 # Dashboards
 lovelace:
   resource_mode: yaml
