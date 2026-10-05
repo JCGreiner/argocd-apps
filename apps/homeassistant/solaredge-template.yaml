@@ -78,30 +78,27 @@
         {{ (value * (10 ** sf)) | round(1) }}
 
     # ----------------------------------------------------------
-    # Lifetime energy
+    # Lifetime / total solar energy
     # ----------------------------------------------------------
-    - name: "SolarEdge Lifetime Energy"
-      unique_id: solaredge_lifetime_energy
-      unit_of_measurement: "kWh"
-      device_class: energy
-      state_class: total_increasing
-      state: >
-        {% set value = states('sensor.solaredge_lifetime_energy_raw') | float(0) %}
-        {% set sf = states('sensor.solaredge_lifetime_energy_scale') | int(0) %}
-        {{ ((value * (10 ** sf)) / 1000) | round(3) }}
-
     - name: "SolarEdge Solar Energy"
       unique_id: solaredge_solar_energy
+      unit_of_measurement: "kWh"
       device_class: energy
       state_class: total_increasing
-      unit_of_measurement: "kWh"
       icon: mdi:solar-power
       state: >
         {% set raw = states('sensor.solaredge_lifetime_energy_raw') %}
         {% set sf = states('sensor.solaredge_lifetime_energy_scale') %}
-          
+
         {% if is_number(raw) and is_number(sf) %}
-          {{ (raw | float * (10 ** (sf | int)) / 1000) | round(3) }}
+          {% set value = raw | float %}
+          {% set scale = sf | int %}
+
+          {% if -10 <= scale <= 10 %}
+            {{ (value * (10 ** scale) / 1000) | round(3) }}
+          {% else %}
+            {{ none }}
+          {% endif %}
         {% else %}
           {{ none }}
         {% endif %}
