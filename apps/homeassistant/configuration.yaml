@@ -307,6 +307,55 @@ input_number:
     mode: box
     icon: mdi:battery-arrow-down
 
+# ==========================================================
+# Virtual battery energy integration
+# ==========================================================
+sensor:
+
+  - platform: integration
+    source: sensor.virtual_battery_charge_power
+    name: Virtual Battery Energy Charged
+    unique_id: virtual_battery_energy_charged
+    unit_prefix: k
+    unit_time: h
+    round: 3
+    method: trapezoidal
+    max_sub_interval:
+      minutes: 5
+
+  - platform: integration
+    source: sensor.virtual_battery_discharge_power
+    name: Virtual Battery Energy Discharged
+    unique_id: virtual_battery_energy_discharged
+    unit_prefix: k
+    unit_time: h
+    round: 3
+    method: trapezoidal
+    max_sub_interval:
+      minutes: 5
+
+  - platform: integration
+    source: sensor.virtual_grid_import_power
+    name: Virtual Grid Import Energy
+    unique_id: virtual_grid_import_energy
+    unit_prefix: k
+    unit_time: h
+    round: 3
+    method: trapezoidal
+    max_sub_interval:
+      minutes: 5
+
+  - platform: integration
+    source: sensor.virtual_grid_export_power
+    name: Virtual Grid Export Energy
+    unique_id: virtual_grid_export_energy
+    unit_prefix: k
+    unit_time: h
+    round: 3
+    method: trapezoidal
+    max_sub_interval:
+      minutes: 5
+
 # Dashboards
 lovelace:
   resource_mode: yaml
