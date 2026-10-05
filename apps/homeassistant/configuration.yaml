@@ -397,7 +397,7 @@ lovelace:
       title: Solar + Battery
       icon: mdi:battery-solar
       show_in_sidebar: true
-    energy:
+    energy-dashboard:
       mode: yaml
       filename: energy-dashboard.yaml
       title: Energy
