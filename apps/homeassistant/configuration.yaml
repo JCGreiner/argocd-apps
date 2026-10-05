@@ -400,7 +400,7 @@ lovelace:
     energy-dashboard:
       mode: yaml
       filename: energy-dashboard.yaml
-      title: Energy
+      title: Energy + Battery
       icon: mdi:lightning-bolt
       show_in_sidebar: true
 
