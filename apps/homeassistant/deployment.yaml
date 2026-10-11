@@ -38,7 +38,7 @@ spec:
               readOnly: true
       containers:
         - name: homeassistant
-          image: ghcr.io/home-assistant/home-assistant:2026.8.3
+          image: ghcr.io/home-assistant/home-assistant:2026.10.1
           ports:
             - name: http
               containerPort: 8123
